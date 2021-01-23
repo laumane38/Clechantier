@@ -1,67 +1,16 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>
-			{% block title %}{% endblock %}
-		</title>
-		<link href="/css/class.css" rel="stylesheet">
-		<link href="/css/balise.css" rel="stylesheet">
-		<link href="/css/id.css" rel="stylesheet">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> {% block stylesheets %}{% endblock %}
-
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-		{% block javascripts %}{% endblock %}
-	</head>
+	{% include 'head.html.twig' %}
 	<body>
 		<div class="container">
 			<div class="spacer200">
 				<div class="titreSite">Clechantier.fr</div>
 			</div>
-			<nav>
-				<ul>
-					<div class="left">
-						<li><a href="{{path('home')}}">Accueil</a></li>
-						<li><a href="{{path('index_membre')}}">Espace membre</a></li>
-					</div>
-					<div class="right">
-						<li><a href="{{path('index_materiel')}}">Matériel</a></li>
-						<li><a href="{{path('index_levage')}}">Levage</a></li>
-						<li><a href="{{path('index_batiment')}}">Bâtiment</a></li>
-						<li><a href="{{path('index_tp')}}">travaux publics</a></li>
-						<li><a href="{{path('index_vehicule')}}">Véhicule</a></li>
-						<li><a href="{{path('index_personnel')}}">Personnel</a></li>
-					</div>
-				</ul>
-			</nav>
+			{% include 'nav.html.twig' %}
 			<div class="spacer100"></div>
 			{% block body %}{% endblock %}
 		</div>
 		<div class="spacer50"></div>
-		<footer class="bg-dark footer">
-			<div class="container w-100">
-				<div class="row">
-					<div class="w-25 d-inline-block">
-						<p>Conditions générales d'utilisation</p>
-						<p>Mentions légales</p>
-						<p>Accesibilité</p>
-						<p>copyright</p>
-					</div>
-					<div class="w-25 d-inline-block">
-						<p>Nous contacter</p>
-						<p>Facebook</p>
-						<p>twitter</p>
-						<p>un truc  ici</p>
-					</div>
-					<div class="w-25 d-inline-block">
-						<p>Nous rejoindre</p>
-						<p>Espace entreprises</p>
-					</div>
-					<div class="w-25 d-inline-block">
-						<p>Foire aux questions</p>
-					</div>
-				</div>
-			</div>
-		</footer>
+	{% include 'footer.html.twig' %}
 	</body>
 </html></body></html>
