@@ -6,12 +6,12 @@
 
 {% block body %}
 
-	<h1>Espace membre</h1>
+	<h1>Membre</h1>
 	<div class="spacer50"></div>
 	<h2>Formulaire de connexion</h2>
 	{{ form_start(formConnexion) }}
-	<div class="input">{{ form_row(formConnexion.email) }}</div>
-	<div class="input">{{ form_row(formConnexion.password) }}</div>
+	{{ form_row(formConnexion.email) }}
+	{{ form_row(formConnexion.password) }}
 	<button class="btn btn-primary" type="submit">Connexion</button>
 
 	{{ form_end(formConnexion) }}
@@ -21,10 +21,11 @@
 	<h2>Formulaire d'inscription</h2>
 
 	{{ form_start(formInscription) }}
-	<div class="input">{{ form_row(formInscription.email) }}</div>
-	<div class="input">{{ form_row(formInscription.password) }}</div>
-	<div class="input">{{ form_row(formInscription.nom) }}</div>
-	<div class="input">{{ form_row(formInscription.prenom) }}</div>
+	{{ form_row(formInscription.email) }}
+	{{ form_row(formInscription.password) }}
+	{{ form_row(formInscription.nom) }}
+	{{ form_row(formInscription.prenom) }}
+
 	<button class="btn btn-primary" type="submit">Inscription</button>
 
 	{{ form_end(formInscription) }}

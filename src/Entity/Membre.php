@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MembreRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MembreRepository::class)
@@ -19,21 +20,27 @@ class Membre
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Lenght(min=5)
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Lenght(min=8)
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @assert\NotBlank
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @assert\NotBlank
      */
     private $prenom;
 

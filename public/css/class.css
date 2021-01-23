@@ -43,3 +43,11 @@
     border-style: solid;
     border: 1px;
 }
+
+.left{
+    float: left;
+}
+
+.right{
+    float: right;
+}

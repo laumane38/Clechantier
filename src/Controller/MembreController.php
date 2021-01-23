@@ -16,7 +16,7 @@ class MembreController extends AbstractController
 {
 
     /**
-     * @Route("membre", name="index_membre")
+     * @Route("/membre", name="index_membre")
      */
     public function index(Request $request): Response
     {
