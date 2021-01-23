@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Page membre!
+{% endblock %}
+
+{% block body %}
+
+	<h1>Espace membre</h1>
+	<div class="spacer50"></div>
+	<h2>Formulaire de connexion</h2>
+	{{ form_start(formConnexion) }}
+	<div class="input">{{ form_row(formConnexion.email) }}</div>
+	<div class="input">{{ form_row(formConnexion.password) }}</div>
+	<button class="btn btn-primary" type="submit">Connexion</button>
+
+	{{ form_end(formConnexion) }}
+
+
+	<div class="spacer50"></div>
+	<h2>Formulaire d'inscription</h2>
+	<form method="POST">
+		<div class="input">
+			<label for="email">Adresse mail :</label>
+			<input type="text" name="emailInscription" placeholder="Email">
+		</div>
+		<div class="input">
+			<label for="nom">Nom :</label>
+			<input type="text" name="nomInscription" placeholder="Nom">
+		</div>
+		<div class="input">
+			<label for="prenom">Prénom :</label>
+			<input type="text" name="prenomInscription" placeholder="Prénom">
+		</div>
+		<div class="input">
+			<label for="password">Mot de passe :</label>
+			<input type="text" name="passwordInscription" placeholder="Mot de passe">
+		</div>
+		<div>
+			<label for="password">Mot de passe :</label>
+			<input type="text" name="password2Inscription" placeholder="Répétez le mot de passe">
+		</div>
+		<input type="submit" name="inscription" value="S'inscrire">
+	</form>
+{% endblock %}
