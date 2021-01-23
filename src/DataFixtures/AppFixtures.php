@@ -31,23 +31,6 @@ class AppFixtures extends Fixture
             $manager->persist($membre);
         }
 
-        $array = [
-            "Accueil",
-            "Matériel",
-            "Engin",
-            "Outillage",
-            "Consommable",
-            "Personnel",
-            "Membres",
-        ];
-
-        for ($i = 1; $i < count($array); $i++) {
-
-            $nav = new Nav();
-            $nav->setNom($array[$i]);
-            $manager->persist($nav);
-        }
-
         $manager->flush();
     }
 }

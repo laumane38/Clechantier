@@ -19,27 +19,14 @@
 
 	<div class="spacer50"></div>
 	<h2>Formulaire d'inscription</h2>
-	<form method="POST">
-		<div class="input">
-			<label for="email">Adresse mail :</label>
-			<input type="text" name="emailInscription" placeholder="Email">
-		</div>
-		<div class="input">
-			<label for="nom">Nom :</label>
-			<input type="text" name="nomInscription" placeholder="Nom">
-		</div>
-		<div class="input">
-			<label for="prenom">Prénom :</label>
-			<input type="text" name="prenomInscription" placeholder="Prénom">
-		</div>
-		<div class="input">
-			<label for="password">Mot de passe :</label>
-			<input type="text" name="passwordInscription" placeholder="Mot de passe">
-		</div>
-		<div>
-			<label for="password">Mot de passe :</label>
-			<input type="text" name="password2Inscription" placeholder="Répétez le mot de passe">
-		</div>
-		<input type="submit" name="inscription" value="S'inscrire">
-	</form>
+
+	{{ form_start(formInscription) }}
+	<div class="input">{{ form_row(formInscription.email) }}</div>
+	<div class="input">{{ form_row(formInscription.password) }}</div>
+	<div class="input">{{ form_row(formInscription.nom) }}</div>
+	<div class="input">{{ form_row(formInscription.prenom) }}</div>
+	<button class="btn btn-primary" type="submit">Inscription</button>
+
+	{{ form_end(formInscription) }}
+
 {% endblock %}

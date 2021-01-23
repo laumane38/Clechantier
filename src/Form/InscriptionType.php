@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Membre;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -11,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-class ConnexionType extends AbstractType
+class InscriptionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -27,6 +26,20 @@ class ConnexionType extends AbstractType
                 'label' => 'Votre mot de passe',
                 'attr' => [
                     'placeholder' => 'Mot de passe'
+                ]
+
+            ])
+            ->add('nom', TextType::class, [
+                'label' => 'Votre nom :',
+                'attr' => [
+                    'placeholder' => 'Nom'
+                ]
+
+            ])
+            ->add('prenom', TextType::class, [
+                'label' => 'Votre prénom :',
+                'attr' => [
+                    'placeholder' => 'Prénom'
                 ]
 
             ]);

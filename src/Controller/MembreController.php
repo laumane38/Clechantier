@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Membre;
 use App\Form\ConnexionType;
+use App\Form\InscriptionType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,15 +21,23 @@ class MembreController extends AbstractController
     public function index(Request $request): Response
     {
         $membre = new Membre();
-        $form = $this->createForm(ConnexionType::class, $membre)->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        $formConnexion = $this->createForm(ConnexionType::class, $membre)->handleRequest($request);
+        if ($formConnexion->isSubmitted() && $formConnexion->isValid()) {
+
+            //$enregistrements = $this->getDoctrine()->getRepository(Membre::class)->find()
+
+        }
+
+        $formInscription = $this->createForm(InscriptionType::class, $membre)->handleRequest($request);
+        if ($formInscription->isSubmitted() && $formInscription->isValid()) {
 
             //$enregistrements = $this->getDoctrine()->getRepository(Membre::class)->find()
 
         }
 
         return $this->render('pages/membre.html.twig', [
-            'formConnexion' => $form->createView()
+            'formConnexion' => $formConnexion->createView(),
+            'formInscription' => $formInscription->createView()
         ]);
     }
 
