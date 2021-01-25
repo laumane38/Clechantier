@@ -3,7 +3,16 @@
 	{% include 'head.html.twig' %}
 	<body>
 		<div class="container">
+
 			<div class="spacer200">
+				{% if app.user %}
+
+					<div class="float-left text-white">Bonjour
+						{{ app.user.username }}-
+						<a href="{{ path('app_logout') }}">Cliquez ici pour vous déconnecter</a>
+					</div>
+
+				{% endif %}
 				<div class="titreSite">Clechantier.fr</div>
 			</div>
 			{% include 'nav.html.twig' %}
@@ -11,6 +20,5 @@
 			{% block body %}{% endblock %}
 		</div>
 		<div class="spacer50"></div>
-	{% include 'footer.html.twig' %}
-	</body>
-</html></body></html>
+		{% include 'footer.html.twig' %}</body>
+</html></body></html></body></html>

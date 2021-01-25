@@ -4,13 +4,15 @@ security:
             algorithm: auto
 
 
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: email
+                property: pseudo
+        # used to reload user from session & other features (e.g. switch_user)
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
@@ -19,7 +21,12 @@ security:
         main:
             anonymous: true
             lazy: true
+            logout:
+                path: app_logout
             provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\AppCustomAuthenticator
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
