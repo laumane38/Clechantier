@@ -47,9 +47,12 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function getCredentials(Request $request)
     {
+
+        $reqConnexion = $request->request->get('connexion');
+
         $credentials = [
-            'pseudo' => $request->request->get('pseudo'),
-            'password' => $request->request->get('password'),
+            'pseudo' => $reqConnexion["pseudo"],
+            'password' => $reqConnexion["password"],
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
@@ -71,7 +74,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Pseudo invalide.');
+            throw new CustomUserMessageAuthenticationException('Pseudo could not be found.');
         }
 
         return $user;
@@ -98,7 +101,8 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         //throw new \Exception('home' . __FILE__);
-        return new RedirectResponse($this->urlGenerator->generate('home'));
+
+        return new RedirectResponse($this->urlGenerator->generate('index_membre'));
     }
 
     protected function getLoginUrl()

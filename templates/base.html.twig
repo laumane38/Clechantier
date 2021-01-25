@@ -9,14 +9,16 @@
 
 					<div class="float-left text-white">Bonjour
 						{{ app.user.username }}-
-						<a href="{{ path('app_logout') }}">Cliquez ici pour vous déconnecter</a>
+						<a href="{{ path('app_logout') }}" class="btn btn-link white">Cliquez ici pour vous déconnecter</a>
 					</div>
 
 				{% endif %}
 				<div class="titreSite">Clechantier.fr</div>
 			</div>
 			{% include 'nav.html.twig' %}
+
 			<div class="spacer100"></div>
+
 			{% block body %}{% endblock %}
 		</div>
 		<div class="spacer50"></div>
