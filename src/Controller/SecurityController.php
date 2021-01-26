@@ -11,11 +11,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+
     /**
      * @Route("/login", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+
         if ($this->getUser()) {
             return $this->redirectToRoute('index_membre');
         }
@@ -23,19 +25,42 @@ class SecurityController extends AbstractController
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
         $formConnexion = $this->createForm(ConnexionType::class);
         $formInscription = $this->createForm(InscriptionType::class);
 
-
         return $this->render('security/login.html.twig', [
-            'last_username' => $lastUsername,
             'formConnexion' => $formConnexion->createView(),
             'formInscription' => $formInscription->createView(),
             'error' => $error,
         ]);
+    }
+
+    /**
+     * @Route("/login_success", name="login_success")
+     */
+    public function login_success(): response
+    {
+
+        $this->addFlash(
+            'success',
+            'Connexion réussi'
+        );
+
+        return $this->redirectToRoute('index_membre');
+    }
+
+    /**
+     * @Route("/login_fail", name="login_fail")
+     */
+    public function login_fail(): response
+    {
+
+        $this->addFlash(
+            'alert',
+            'La connexion a échouée'
+        );
+
+        return $this->redirectToRoute('app_login');
     }
 
     /**

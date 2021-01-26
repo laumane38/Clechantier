@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -42,9 +41,16 @@ class User implements UserInterface
      */
     private DateTimeImmutable $registeredAt;
 
+    /**
+     * @var DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $connectedAt;
+
     public function __construct()
     {
         $this->registeredAt = new DateTimeImmutable();
+        $this->connectedAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -118,7 +124,25 @@ class User implements UserInterface
 
     public function setRegisteredAt(string $registeredAt): self
     {
-        $this->password = $registeredAt;
+        $this->registeredAt = $registeredAt;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getConnectedAt(): string
+    {
+        return (string) $this->connectedAt;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function setConnectedAt(string $connectedAt): self
+    {
+        $this->connectedAt = $connectedAt;
 
         return $this;
     }

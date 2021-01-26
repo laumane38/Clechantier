@@ -6,6 +6,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
+/**
+ * Require ROLE_USER for *every* controller method in this class.
+ *
+ * @IsGranted("ROLE_USER")
+ */
 class MembreController extends AbstractController
 {
 

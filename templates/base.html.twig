@@ -5,19 +5,32 @@
 		<div class="container">
 
 			<div class="spacer200">
+
 				{% if app.user %}
 
 					<div class="float-left text-white">Bonjour
-						{{ app.user.username }}-
-						<a href="{{ path('app_logout') }}" class="btn btn-link white">Cliquez ici pour vous déconnecter</a>
+						{{ app.user.username }}
+						<a href="{{ path('app_logout') }}" class="btn btn-link">Cliquez ici pour vous déconnecter</a>
 					</div>
 
 				{% endif %}
-				<div class="titreSite">Clechantier.fr</div>
+				<div class="titreSite">Site Name</div>
 			</div>
 			{% include 'nav.html.twig' %}
 
 			<div class="spacer100"></div>
+
+			{% for message in app.flashes('alert') %}
+				<div class="alert alert-danger">
+					{{ message }}
+				</div>
+			{% endfor %}
+
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">
+					{{ message }}
+				</div>
+			{% endfor %}
 
 			{% block body %}{% endblock %}
 		</div>

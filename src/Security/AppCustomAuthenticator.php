@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
@@ -73,8 +74,10 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['pseudo' => $credentials['pseudo']]);
 
         if (!$user) {
+
+
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Pseudo could not be found.');
+            throw new CustomUserMessageAuthenticationException('Pseudo inconnu.');
         }
 
         return $user;
@@ -102,7 +105,12 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         //throw new \Exception('home' . __FILE__);
 
-        return new RedirectResponse($this->urlGenerator->generate('index_membre'));
+        return new RedirectResponse($this->urlGenerator->generate('login_success'));
+    }
+
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        return new RedirectResponse($this->urlGenerator->generate('login_fail'));
     }
 
     protected function getLoginUrl()
