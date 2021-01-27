@@ -47,11 +47,10 @@ class User implements UserInterface
      */
     private DateTimeImmutable $connectedAt;
 
-    public function __construct()
-    {
-        $this->registeredAt = new DateTimeImmutable();
-        $this->connectedAt = new DateTimeImmutable();
-    }
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
 
     public function getId(): ?int
     {
@@ -117,12 +116,15 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRegisteredAt(): string
+    public function getRegisteredAt(): \DateTimeImmutable
     {
-        return (string) $this->registeredAt;
+        return $this->registeredAt;
     }
 
-    public function setRegisteredAt(string $registeredAt): self
+    /**
+     * @see UserInterface
+     */
+    public function setRegisteredAt(\DateTimeImmutable $registeredAt): self
     {
         $this->registeredAt = $registeredAt;
 
@@ -132,17 +134,35 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getConnectedAt(): string
+    public function getConnectedAt(): \DateTimeImmutable
     {
-        return (string) $this->connectedAt;
+        return $this->connectedAt;
     }
 
     /**
      * @see UserInterface
      */
-    public function setConnectedAt(string $connectedAt): self
+    public function setConnectedAt(\DateTimeImmutable $connectedAt): self
     {
         $this->connectedAt = $connectedAt;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

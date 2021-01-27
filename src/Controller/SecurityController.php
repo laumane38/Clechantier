@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\InscriptionType;
 use App\Form\ConnexionType;
+use DateTimeImmutable;
+use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,13 +41,35 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/login_success", name="login_success")
+     * @IsGranted("ROLE_USER")
      */
     public function login_success(): response
     {
+        $user = new User;
+
+        $dateTimeImmutable = new DateTimeImmutable();
+        $id = $this->getUser()->getId();
+        $pseudo = $this->getUser()->getPseudo();
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'No product found for id' . $id
+            );
+        }
+
+        $user->setConnectedAt($dateTimeImmutable);
+
+        $entityManager->flush();
+
+
 
         $this->addFlash(
             'success',
-            'Connexion réussi'
+            'Bonjour ' . $pseudo . ' votre authentification a réussi. Vous êtes désormais connecté'
         );
 
         return $this->redirectToRoute('index_membre');

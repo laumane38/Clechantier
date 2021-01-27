@@ -75,9 +75,8 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         if (!$user) {
 
-
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Pseudo inconnu.');
+            throw new CustomUserMessageAuthenticationException('Pseudo_inconnu');
         }
 
         return $user;
