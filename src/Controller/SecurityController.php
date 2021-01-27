@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Form\InscriptionType;
 use App\Form\ConnexionType;
 use DateTimeImmutable;
-use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,17 +44,15 @@ class SecurityController extends AbstractController
      */
     public function login_success(): response
     {
-        $user = new User;
 
         $dateTimeImmutable = new DateTimeImmutable();
-        $id = $this->getUser()->getId();
-        $pseudo = $this->getUser()->getPseudo();
+        $user = $this->getUser();
+        $id = $user->getId();
 
         $entityManager = $this->getDoctrine()->getManager();
-        $user = $entityManager->getRepository(User::class)->find($id);
+        $usr = $entityManager->getRepository(User::class)->find($id);
 
-
-        if (!$user) {
+        if (!$usr) {
             throw $this->createNotFoundException(
                 'No product found for id' . $id
             );
@@ -65,8 +62,7 @@ class SecurityController extends AbstractController
 
         $entityManager->flush();
 
-
-
+        $pseudo = $this->getUser()->getPseudo();
         $this->addFlash(
             'success',
             'Bonjour ' . $pseudo . ' votre authentification a réussi. Vous êtes désormais connecté'
