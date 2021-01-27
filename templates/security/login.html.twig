@@ -8,7 +8,6 @@
 
 	<h2>Formulaire de connexion</h2>
 
-
 	{{ form_start(formConnexion) }}
 
 	{% if error %}
@@ -17,10 +16,9 @@
 
 	{{ form_row(formConnexion.pseudo)}}
 	{{ form_row(formConnexion.password)}}
-	{{ form_row(formConnexion.connectedAt)}}
 
 	<!--Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-					See https://symfony.com/doc/current/security/remember_me.html-->
+									See https://symfony.com/doc/current/security/remember_me.html-->
 
 	<div class="checkbox mb-3">
 		<label>
@@ -39,18 +37,7 @@
 	{{ form_end(formConnexion) }}
 
 	<div class="spacer50"></div>
-	<h2>Formulaire d'inscription</h2>
+	<a href="{{ path('register') }}" class="btn btn-link">Cliquez ici pour Créer un nouveau compte</a>
 
-	{{ form_start(formInscription) }}
-
-	{{ form_row(formInscription.pseudo)}}
-	{{ form_row(formInscription.password)}}
-
-	<div class="padding10">
-		<button class="btn btn-lg btn-primary" type="submit">
-			S'inscrire
-		</button>
-	</div>
-	{{ form_end(formInscription) }}
 
 {% endblock %}

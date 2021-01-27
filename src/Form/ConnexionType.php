@@ -29,12 +29,6 @@ class ConnexionType extends AbstractType
                 'row_attr' => [
                     'class' => 'input'
                 ],
-            ])
-            ->add('connectedAt', HiddenType::class, [
-                'attr' => [
-                    'value' => time()
-                ],
-
             ]);
     }
 

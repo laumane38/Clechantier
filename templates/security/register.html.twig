@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace membre
+{% endblock %}
+
+{% block body %}
+	<h1>Espace membre</h1>
+
+	<h2>Formulaire d'inscription</h2>
+
+	{{ form_start(formInscription) }}
+
+	{{ form_row(formInscription.pseudo)}}
+	{{ form_row(formInscription.password)}}
+	{{ form_row(formInscription.email)}}
+
+	<div class="padding10">
+		<button class="btn btn-lg btn-primary" type="submit">
+			S'inscrire
+		</button>
+	</div>
+	{{ form_end(formInscription) }}
+
+{% endblock %}
