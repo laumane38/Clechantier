@@ -1,0 +1,78 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    font-size: 14px;
+}
+
+.spacer100{
+    height: 100px;
+}
+
+.spacer50{
+    height: 50px;
+}
+
+.spacer150{
+    height: 150px;
+}
+
+.spacer200{
+    height: 200px;
+}
+
+.titreSite{
+
+    font-size: 40px;
+    color: rgb(255, 255, 255);
+    text-align: right;
+    text-shadow: rgb(48, 56, 170) 1px 0 10px;
+    padding: 50px;
+}
+
+.input{
+    padding: 2px;
+}
+
+.footer{
+    min-height: 200px;
+    background-color: rgb(12, 26, 68);
+    color: white;
+}
+
+.border1{
+    border-color: antiquewhite;
+    border-style: solid;
+    border: 1px;
+}
+
+.left{
+    float: left;
+}
+
+.right{
+    float: right;
+}
+
+.padding10{
+    padding: 10px;
+}
+
+.formConnexion{
+    float: left;
+    width: 400px;
+    height: 400px;;
+}
+
+.formInscription{
+    float: left;
+    height: 400px;
+}
+
+.unmask{
+    position: absolute;
+    margin-left: 310px;
+    margin-top: 4px;
+    height: 29px;
+    width: 38px;
+    border: 0px;
+}

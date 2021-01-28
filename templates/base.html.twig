@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}{% endblock %}
+		</title>
+		<link href="/css/class.css" rel="stylesheet">
+		<link href="/css/balise.css" rel="stylesheet">
+		<link href="/css/id.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> {% block stylesheets %}{% endblock %}
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+		{% block javascripts %}{% endblock %}
+	</head>
+	<body>
+		<div class="container">
+
+			<div class="spacer200">
+
+				{% if app.user %}
+
+					<div class="float-left text-white">Bonjour
+						{{ app.user.username }}
+						<a href="{{ path('app_logout') }}" class="btn btn-link">Cliquez ici pour vous déconnecter</a>
+					</div>
+
+				{% endif %}
+				<div class="titreSite">Site Name</div>
+			</div>
+			{% include 'nav.html.twig' %}
+
+			<div class="spacer100"></div>
+
+			{% for message in app.flashes('alert') %}
+				<div class="alert alert-danger">
+					{{ message }}
+				</div>
+			{% endfor %}
+
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">
+					{{ message }}
+				</div>
+			{% endfor %}
+
+			{% block body %}{% endblock %}
+		</div>
+		<div class="spacer50"></div>
+		{% include 'footer.html.twig' %}</body>
+</html>

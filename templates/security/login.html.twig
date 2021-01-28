@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace membre
+{% endblock %}
+
+{% block body %}
+	<h1>Espace membre</h1>
+
+
+	<div class="clearfix">
+		<div class="formConnexion">
+			<h4>Déjà inscrit</h4>
+
+			{{ form_start(formConnexion) }}
+
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
+
+			{{ form_row(formConnexion.pseudo)}}
+			{{ form_row(formConnexion.password)}}
+
+			<!--Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+																																				See https://symfony.com/doc/current/security/remember_me.html-->
+
+			<div class="checkbox mb-3">
+				<label>
+					<input type="checkbox" name="_remember_me">
+					Remember me
+				</label>
+			</div>
+			<!-- end comment this -->
+
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+			<div class="padding10">
+				<button class="btn btn-lg btn-primary" type="submit">
+					Se connecter
+				</button>
+			</div>
+			{{ form_end(formConnexion) }}
+
+		</div>
+		<div class=" formInscription">
+			<a class="btn btn-light" href="{{ path('register') }}" role="button">Créer un compte</a>
+
+		</div>
+	</div>
+	<p>
+		<a class="btn btn-default" href="#" role="button">lire les conditions générales d'utilisation</a>
+	</p>
+	<p>Les champs marqué d'un * sont à remplire obligatoirement</p>
+
+
+{% endblock %}
