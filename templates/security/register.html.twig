@@ -9,7 +9,6 @@
 {% block body %}
 	<h1>Espace membre</h1>
 
-
 	<div class="clearfix">
 		<div class="formConnexion">
 			<a class="btn btn-light" href="{{ path('app_login') }}" role="button">Déjà inscrit</a>
@@ -19,12 +18,11 @@
 			<p>Je m'inscris en remplissant le formulaire ci dessous</p>
 			{{ form_start(formInscription) }}
 			{{ form_row(formInscription.pseudo)}}
-			<button id="lunettes" class="unmask" type="button" title="unmask"><img src="/images/lunettes-mini.png"></button>
+			<button id="lunettesI" class="unmask" type="button" title="unmask"><img src="/images/lunettes-mini.png"></button>
 			{{ form_row(formInscription.password)}}
 			{{ form_row(formInscription.email)}}
 			<div>
-				<label for="inscription_CGU" class="required">Accepter les conditions Générales d&#039;utilisation : *</label><input type="checkbox" id="inscription_CGU" name="inscription[CGU]" value="1"/>
-			</div>
+				<label for="inscription_CGU" class="required">Accepter les conditions Générales d&#039;utilisation : *</label><input type="checkbox" id="inscription_CGU" name="inscription[CGU]" required="required" value="1"/></div>
 
 			<div class="padding10">
 				<button class="btn btn-lg btn-primary" type="submit">
@@ -40,18 +38,5 @@
 	</p>
 	<p>Les champs marqué d'un * sont à remplire obligatoirement</p>
 
-	<script>
-
-		const buttonElement = document.getElementById('lunettes');
-buttonElement.addEventListener('click', event);
-
-function event() {
-if (document.getElementById('inscription_password').type == 'text') {
-document.getElementById('inscription_password').type = 'password';
-} else {
-document.getElementById('inscription_password').type = 'text';
-}
-}
-	</script>
 
 {% endblock %}
