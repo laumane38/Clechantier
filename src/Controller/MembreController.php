@@ -23,4 +23,13 @@ class MembreController extends AbstractController
     {
         return $this->render('pages/membre.html.twig');
     }
+
+    /**
+     * @Route("/profilModify", name="profilModify")
+     */
+    public function profilModify(): Response
+    {
+        return $this->render('pages/profilModify.html.twig');
+    }
+
 }

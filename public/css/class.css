@@ -76,3 +76,17 @@
     width: 38px;
     border: 0px;
 }
+
+.bigicone{
+    float: left;
+    width: 412px;
+    height: 150px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.bigicone:hover{
+    border-color: black;
+}
