@@ -89,5 +89,5 @@
 
 .bigicone:hover{
     border-color: black;
-    box-shadow: 5px 5px 20px black;
+    box-shadow: 1px 1px 20px #555555;
 }
