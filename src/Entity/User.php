@@ -67,6 +67,16 @@ class User implements UserInterface
      */
     private $gender;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $companie;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -201,12 +211,12 @@ class User implements UserInterface
 
     public function getFirstName(): ?string
     {
-        return $this->name;
+        return $this->firstName;
     }
 
-    public function setFirstName(?string $name): self
+    public function setFirstName(?string $firstName): self
     {
-        $this->name = $name;
+        $this->name = $firstName;
 
         return $this;
     }
@@ -231,6 +241,30 @@ class User implements UserInterface
     public function setGender(?string $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getCompanie(): ?string
+    {
+        return $this->companie;
+    }
+
+    public function setCompanie(?string $companie): self
+    {
+        $this->companie = $companie;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

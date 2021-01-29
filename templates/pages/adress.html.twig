@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Membre!
+{% endblock %}
+
+{% block body %}
+
+	<h1>Créer une adresse</h1>
+
+	{{ form_start(formAdress) }}
+	{{ form_row(formAdress.adressTitle)}}
+	<br/>
+	{{ form_row(formAdress.genderUser)}}
+	{{ form_row(formAdress.firstName)}}
+	{{ form_row(formAdress.lastName)}}
+	<br/>
+	{{ form_row(formAdress.companie)}}
+	<br/>
+	{{ form_row(formAdress.adress)}}
+	{{ form_row(formAdress.adress2)}}
+	{{ form_row(formAdress.appartmentNumber)}}
+	{{ form_row(formAdress.floor)}}
+	<br/>
+	{{ form_row(formAdress.zipCode)}}
+	{{ form_row(formAdress.city)}}
+	{{ form_row(formAdress.country)}}
+
+	<button class="btn btn-lg btn-primary" type="submit">
+		Enregistrer
+	</button>
+
+	{{ form_end(formAdress) }}
+
+	{% include 'compulsory.html.twig' %}
+
+{% endblock %}

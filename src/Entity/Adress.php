@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=AdresseRepository::class)
  */
-class Adresse
+class Adress
 {
     /**
      * @ORM\Id
@@ -23,12 +23,12 @@ class Adresse
     private $idProfil;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $adresseTitle;
+    private $adressTitle;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $genderUser;
 
@@ -55,12 +55,12 @@ class Adresse
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $adresse2;
+    private $adress2;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $postBox;
+    private $zipCode=null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -73,11 +73,6 @@ class Adresse
     private $floor;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $postCode;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $city;
@@ -85,7 +80,7 @@ class Adresse
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $cuntry;
+    private $country;
 
     public function getId(): ?int
     {
@@ -104,14 +99,14 @@ class Adresse
         return $this;
     }
 
-    public function getAdresseTitle(): ?string
+    public function getAdressTitle(): string
     {
-        return $this->adresseTitle;
+        return $this->adressTitle;
     }
 
-    public function setAdresseTitle(?string $adresseTitle): self
+    public function setAdressTitle(string $adressTitle): self
     {
-        $this->adresseTitle = $adresseTitle;
+        $this->adressTitle = $adressTitle;
 
         return $this;
     }
@@ -176,26 +171,29 @@ class Adresse
         return $this;
     }
 
-    public function getAdresse2(): ?string
+    public function getAdress2(): ?string
     {
-        return $this->adresse2;
+        return $this->adress2;
     }
 
-    public function setAdresse2(?string $adresse2): self
+    public function setAdress2(?string $adress2): self
     {
-        $this->adresse2 = $adresse2;
+        $this->adress2 = $adress2;
 
         return $this;
     }
 
-    public function getPostBox(): ?string
+    public function getZipCode(): ?int
     {
-        return $this->postBox;
+        return $this->zipCode;
     }
 
-    public function setPostBox(?string $postBox): self
+    /**
+     * @return int|null
+     */
+    public function setZipCode(?int $zipCode): self
     {
-        $this->postBox = $postBox;
+        $this->zipCode = $zipCode;
 
         return $this;
     }
@@ -224,18 +222,6 @@ class Adresse
         return $this;
     }
 
-    public function getPostCode(): ?int
-    {
-        return $this->postCode;
-    }
-
-    public function setPostCode(?int $postCode): self
-    {
-        $this->postCode = $postCode;
-
-        return $this;
-    }
-
     public function getCity(): ?string
     {
         return $this->city;
@@ -248,14 +234,14 @@ class Adresse
         return $this;
     }
 
-    public function getCuntry(): ?string
+    public function getCountry(): ?string
     {
-        return $this->cuntry;
+        return $this->country;
     }
 
-    public function setCuntry(?string $cuntry): self
+    public function setCountry(?string $country): self
     {
-        $this->cuntry = $cuntry;
+        $this->country = $country;
 
         return $this;
     }
