@@ -32,10 +32,10 @@ CREATE TABLE `france` (
   `Code_commune_INSEE` varchar(5) NOT NULL,
   `Nom_commune` varchar(38) NOT NULL,
   `Code_postal` int NOT NULL,
-  `lieut_dit` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `lieut_dit` varchar(33) NULL,
   `Libellé_d_acheminement` varchar(32) NOT NULL,
   `coordonnees_gps` varchar(32) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `france`

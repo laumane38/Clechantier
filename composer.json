@@ -79,12 +79,12 @@
         "init-dev-env": [
             "symfony console doctrine:database:drop --if-exists --force",
             "symfony console doctrine:database:create",
-            "symfony console doctrine:schema:update --force",
-            "symfony console doctrine:fixtures:load -n",
             "symfony console doctrine:database:import sql/france1.sql",
             "symfony console doctrine:database:import sql/france2.sql",
             "symfony console doctrine:database:import sql/france3.sql",
-            "symfony console doctrine:database:import sql/france4.sql"
+            "symfony console doctrine:database:import sql/france4.sql",
+            "symfony console doctrine:schema:update --force",
+            "symfony console doctrine:fixtures:load -n"
         ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
