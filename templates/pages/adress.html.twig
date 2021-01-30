@@ -6,32 +6,74 @@
 
 {% block body %}
 
-	<h1>Créer une adresse</h1>
+	<div class="clearfix">
+		<div class="floatleft50">
+			<h1>Créer une adresse</h1>
 
-	{{ form_start(formAdress) }}
-	{{ form_row(formAdress.adressTitle)}}
-	<br/>
-	{{ form_row(formAdress.genderUser)}}
-	{{ form_row(formAdress.firstName)}}
-	{{ form_row(formAdress.lastName)}}
-	<br/>
-	{{ form_row(formAdress.companie)}}
-	<br/>
-	{{ form_row(formAdress.adress)}}
-	{{ form_row(formAdress.adress2)}}
-	{{ form_row(formAdress.appartmentNumber)}}
-	{{ form_row(formAdress.floor)}}
-	<br/>
-	{{ form_row(formAdress.zipCode)}}
-	{{ form_row(formAdress.city)}}
-	{{ form_row(formAdress.country)}}
+			{{ form_start(formAdress) }}
+			{{ form_row(formAdress.adressTitle)}}
+			<br/>
+			{{ form_row(formAdress.genderUser)}}
+			{{ form_row(formAdress.firstName)}}
+			{{ form_row(formAdress.lastName)}}
+			<br/>
+			{{ form_row(formAdress.companie)}}
+			<br/>
+			{{ form_row(formAdress.adress)}}
+			{{ form_row(formAdress.adress2)}}
+			{{ form_row(formAdress.appartmentNumber)}}
+			{{ form_row(formAdress.floor)}}
+			<br/>
+			{{ form_row(formAdress.zipCode)}}
+			{{ form_row(formAdress.city)}}
+			{{ form_row(formAdress.country)}}
+			<br/>
+			{{ form_row(formAdress.defaultAdress)}}
+			<br/>
+			<button class="btn btn-lg btn-primary" type="submit">
+				Enregistrer
+			</button>
 
-	<button class="btn btn-lg btn-primary" type="submit">
-		Enregistrer
-	</button>
+			{{ form_end(formAdress) }}
 
-	{{ form_end(formAdress) }}
+			{% include 'compulsory.html.twig' %}
+		</div>
+		<div class="floatleft50">
+			<h2>Mes adresses</h2>
 
-	{% include 'compulsory.html.twig' %}
+			{% for oneAdress in adress%}
+				<div class="postCard">
+					<div class="clearfix">
+						<div class="left">
+							<h4>{{oneAdress.AdressTitle}}<h4></div>
+								<div class="right">
+									<a href="supprimer/adress/{{oneAdress.id}}"><img src="../images/close.png" alt="Supprimer cette adresse" title="Supprimer cette adresse"/></a>
+								</div>
+							</div>
+							<div class="padding10">
+								{{oneAdress.genderUser}}
+								{{oneAdress.firstName}}
+								{{oneAdress.lastName}}<br/>
+								{{oneAdress.companie}}<br/>
+								{{oneAdress.adress}}<br/>
+								{{oneAdress.adress2}}<br/>
+								{{oneAdress.appartmentNumber}}<br/>
+								{{oneAdress.floor}}<br/>
+								{{oneAdress.zipCode}}<br/>
+								{{oneAdress.city}}<br/>
+								{{oneAdress.country}}<br/>
+								<br/>
+								{% if oneAdress.defaultAdress ==0 %}
+									<a href="setDefault/adress/{{oneAdress.id}}" class="btn btn-primary">Définir comme adresse par défaut</a>
+								{% else %}
+									Adresse par défaut
+								{% endif %}
 
-{% endblock %}
+							</div>
+						</div>
+					{% endfor %}
+
+				</div>
+			</div>
+
+		{% endblock %}

@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\AdresseRepository;
+use App\Repository\AdressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
- * @ORM\Entity(repositoryClass=AdresseRepository::class)
+ * @ORM\Entity(repositoryClass=AdressRepository::class)
  */
 class Adress
 {
@@ -81,6 +82,16 @@ class Adress
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $country;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $defaultAdress;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enable;
 
     public function getId(): ?int
     {
@@ -242,6 +253,30 @@ class Adress
     public function setCountry(?string $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getDefaultAdress(): ?bool
+    {
+        return $this->defaultAdress;
+    }
+
+    public function setDefaultAdress(?bool $defaultAdress): self
+    {
+        $this->defaultAdress = $defaultAdress;
+
+        return $this;
+    }
+
+    public function getEnable(): ?bool
+    {
+        return $this->enable;
+    }
+
+    public function setEnable(?bool $enable): self
+    {
+        $this->enable = $enable;
 
         return $this;
     }

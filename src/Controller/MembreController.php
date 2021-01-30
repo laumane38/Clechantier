@@ -4,12 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Adress;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Form\AdressType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
@@ -39,8 +39,10 @@ class MembreController extends AbstractController
     /**
      * @Route("/adress", name="adress")
      */
-    public function adress(Request $request): Response
+    public function adress(Request $request, EntityManagerInterface $em): Response
     {
+
+        $user = $this->getUser();
 
         $formAdress = $this->createForm(AdressType::class);
 
@@ -53,10 +55,31 @@ class MembreController extends AbstractController
 
                 $sub = $request->request->get('adress');
 
+                //si le code postal n'est pas renseigné on donne une valeur null pour que le code postal existe
                 if($sub['zipCode']==="") $sub['zipCode']= null;
 
-                $user = $this->getUser();
-                $entityManager = $this->getDoctrine()->getManager();
+                //si l'adresse n'est pas défini par defaut on lui donne valeur 0
+                //sinon on ne modife pas sa valeur mais on modifie la base de données pour que l'ancienne adresse par defaut ne le soit plus
+                if(empty($sub['defaultAdress'])){
+                    $sub['defaultAdress'] = 0;
+                }
+                else{
+
+                    $repo = $em->getRepository(Adress::class);
+                    $adressToSetNotDefault = $repo->findBy([
+                        'idProfil' => $user->getId(),
+                        'enable' => '1',
+                        'defaultAdress' => '1'
+                    ]);
+                    
+                    if(!empty($adressToSetNotDefault))
+                    {
+                        $adressToSetNotDefault[0]->setDefaultAdress(0);
+
+                        $em->persist($adressToSetNotDefault[0]);
+                        $em->flush();
+                    }
+                }
 
                 $adress = new Adress;
                 $adress->setIdProfil($user->getId());
@@ -72,18 +95,21 @@ class MembreController extends AbstractController
                 $adress->setZipCode($sub['zipCode']);
                 $adress->setCity($sub['city']);
                 $adress->setCountry($sub['country']);
-
+                $adress->setDefaultAdress($sub['defaultAdress']);
+                $adress->setEnable(1);
                 
 
                 if($adress->getAdressTitle()!==""){
 
-                    $entityManager->persist($adress);
-                    $entityManager->flush();
+                    $em->persist($adress);
+                    $em->flush();
 
                     $this->addFlash(
                         'success',
                         'Nouvelle adresse enregistrée avec succès'
                     );
+
+                    return $this->redirectToRoute('adress');
                     
                 }
                 else{
@@ -97,8 +123,18 @@ class MembreController extends AbstractController
             }
         }
 
+        $repo = $em->getRepository(Adress::class);
+        $adress = $repo->findBy([
+            'idProfil' => $user->getId(),
+            'enable' => '1'
+        ],[
+            'defaultAdress'=>'DESC',
+            'id' => 'DESC'
+        ]);
+
         return $this->render('pages/adress.html.twig',[
-            'formAdress' => $formAdress->createView()
+            'formAdress' => $formAdress->createView(),
+            'adress' => $adress
         ]);
     }
 

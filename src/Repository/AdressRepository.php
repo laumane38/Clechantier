@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Adresse;
+use App\Entity\Adress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -12,15 +12,15 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Adresse[]    findAll()
  * @method Adresse[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AdresseRepository extends ServiceEntityRepository
+class AdressRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Adresse::class);
+        parent::__construct($registry, Adress::class);
     }
 
     // /**
-    //  * @return Adresse[] Returns an array of Adresse objects
+    //  * @return Adress[] Returns an array of Adress objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class AdresseRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Adresse
+    public function findOneBySomeField($value): ?Adress
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

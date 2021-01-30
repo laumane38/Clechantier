@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -137,6 +137,10 @@ class AdressType extends AbstractType
                 'attr'=>[
                     'placeholder'=>'Pays'
                 ]
+            ])
+            ->add('defaultAdress', CheckboxType::class,[
+                'label'=> 'Définir par défaut',
+                'required'   => false
             ])
         ;
     }
