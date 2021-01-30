@@ -138,4 +138,12 @@ class MembreController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/profilEdit", name="profilEdit")
+     */
+    public function profilEdit(): Response
+    {
+        return $this->render('pages/profilEdit.html.twig');
+    }
+
 }

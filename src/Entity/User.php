@@ -77,6 +77,14 @@ class User implements UserInterface
      */
     private $avatar;
 
+    /**
+     * @var DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private DateTimeImmutable $birthday;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -195,6 +203,114 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function setFirstName(?string $firstName): self
+    {
+        $this->name = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function setLastName(?string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function setGender(?string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getCompanie(): ?string
+    {
+        return $this->companie;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function setCompanie(?string $companie): self
+    {
+        $this->companie = $companie;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+     /**
+     * @see UserInterface
+     */
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function birthday(): ?DateTimeImmutable
+    {
+        return $this->birthday;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function setBirthday(?DateTimeImmutable $birthday): self
+    {
+        $this->rbirthday = $birthday;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
     public function getSalt()
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
@@ -209,63 +325,4 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(?string $firstName): self
-    {
-        $this->name = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(?string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getGender(): ?string
-    {
-        return $this->gender;
-    }
-
-    public function setGender(?string $gender): self
-    {
-        $this->gender = $gender;
-
-        return $this;
-    }
-
-    public function getCompanie(): ?string
-    {
-        return $this->companie;
-    }
-
-    public function setCompanie(?string $companie): self
-    {
-        $this->companie = $companie;
-
-        return $this;
-    }
-
-    public function getAvatar(): ?string
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(?string $avatar): self
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
 }
