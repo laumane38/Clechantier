@@ -19,13 +19,13 @@
 
 				{% if app.user %}
 
-					<div class="float-left text-white">Bonjour
+					<div class="float-left">Bonjour
 						{{ app.user.username }}
 						<a href="{{ path('app_logout') }}" class="btn btn-link">Cliquez ici pour vous déconnecter</a>
 					</div>
 
 				{% endif %}
-				<div class="titreSite">C le chantier</div>
+				<div class="titreSite">En chantier</div>
 			</div>
 			{% include 'nav.html.twig' %}
 

@@ -77,14 +77,6 @@ class User implements UserInterface
      */
     private $avatar;
 
-    /**
-     * @var DateTimeImmutable
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private DateTimeImmutable $birthday;
-
-
-
     public function getId(): ?int
     {
         return $this->id;
@@ -286,24 +278,6 @@ class User implements UserInterface
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function birthday(): ?DateTimeImmutable
-    {
-        return $this->birthday;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function setBirthday(?DateTimeImmutable $birthday): self
-    {
-        $this->rbirthday = $birthday;
 
         return $this;
     }

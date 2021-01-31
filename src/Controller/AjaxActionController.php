@@ -18,8 +18,9 @@ class AjaxActionController extends AbstractController
     {
         if ($request->isXMLHttpRequest()) {         
 
+           
 
-            return new JsonResponse(array('adress_city' => 'this is a json response'));
+            return new JsonResponse(array('data' => 'iop'));
         }
     
         return new Response('This is not ajax!', 400);

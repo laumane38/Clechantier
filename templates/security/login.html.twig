@@ -4,8 +4,10 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Espace membre</h1>
 
+	<a href="/">home</a>
+
+	<h1>Espace membre</h1>
 
 	<div class="clearfix">
 		<div class="formConnexion">
@@ -18,7 +20,7 @@
 			{% endif %}
 
 			{{ form_row(formConnexion.pseudo)}}
-			<button id="lunettesC" class="unmask" type="button" title="unmask"><img src="/images/lunettes-mini.png"></button>
+			<button id="lunettesC" class="unmask" type="button" title="unmask"><img src="/images/buttons/lunettes-mini.png"></button>
 			{{ form_row(formConnexion.password)}}
 
 			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">

@@ -7,8 +7,42 @@
 {% block body %}
 
 	<p>
-		Navigation :<a href="/">home</a>/<a href="membre">Espace membre</a>/<a href="profilModify">Modifier mon profil</a>
+		<a href="/">home</a>/<a href="membre">Espace membre</a>/<a href="profilModify">Modifier mon profil</a>
 	</p>
-	<h1>Edition de mon profil</h1>
+	<div class="clearfix">
 
+		<div class="floatleft50">
+			<h1>Edition de mon profil</h1>
+
+			{{ form_start(formEditProfil) }}
+			{{ form_row(formEditProfil.gender)}}
+			{{ form_row(formEditProfil.firstName)}}
+			{{ form_row(formEditProfil.lastName)}}
+			{{ form_row(formEditProfil.email)}}
+			{{ form_row(formEditProfil.companie)}}
+
+			<button class="btn btn-lg btn-primary" type="submit">
+				Modifier
+			</button>
+			{{ form_end(formEditProfil) }}
+
+		</div>
+		<div class="floatleft50">
+			<h1>Mon avatar</h1>
+			<div class="clearfix">
+
+				<div class="avatar">
+					<img src="../images/avatars/avatar1.png">
+				</div>
+				<div class="avatarModify">
+					<a href="/avatarEdit">
+						<p>modifier</p>
+					</a>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
 {% endblock %}

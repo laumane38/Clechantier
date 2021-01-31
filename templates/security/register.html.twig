@@ -7,6 +7,9 @@
 
 
 {% block body %}
+
+	<a href="/">home</a>
+
 	<h1>Espace membre</h1>
 
 	<div class="clearfix">
@@ -18,7 +21,7 @@
 			<p>Je m'inscris en remplissant le formulaire ci dessous</p>
 			{{ form_start(formInscription) }}
 			{{ form_row(formInscription.pseudo)}}
-			<button id="lunettesI" class="unmask" type="button" title="unmask"><img src="/images/lunettes-mini.png"></button>
+			<button id="lunettesI" class="unmask" type="button" title="unmask"><img src="/images/buttons/lunettes-mini.png"></button>
 			{{ form_row(formInscription.password)}}
 			{{ form_row(formInscription.email)}}
 			<div>

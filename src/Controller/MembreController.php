@@ -6,6 +6,7 @@ use App\Entity\Adress;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\AdressType;
+use App\Form\ProfilType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -84,7 +85,7 @@ class MembreController extends AbstractController
                 $adress = new Adress;
                 $adress->setIdProfil($user->getId());
                 $adress->setAdressTitle($sub['adressTitle']);
-                $adress->setGenderUser($sub['genderUser']);
+                $adress->setGender($sub['gender']);
                 $adress->setFirstName($sub['firstName']);
                 $adress->setLastName($sub['lastName']);
                 $adress->setCompanie($sub['companie']);
@@ -141,9 +142,58 @@ class MembreController extends AbstractController
     /**
      * @Route("/profilEdit", name="profilEdit")
      */
-    public function profilEdit(): Response
+    public function profilEdit(Request $request, EntityManagerInterface $em): Response
     {
-        return $this->render('pages/profilEdit.html.twig');
+
+        $user = $this->getUser();
+
+        $formEditProfil = $this->createForm(ProfilType::class);
+
+
+        if ($request->isMethod('POST')) {
+
+            $formEditProfil->submit($request->request->get($formEditProfil->getName()));
+
+
+
+            if($formEditProfil->isSubmitted()){
+
+                $sub = $request->request->get('profil');
+
+                $user->setGender($sub['gender']);
+                $user->setFirstname($sub['firstName']);
+                $user->setLastName($sub['lastName']);
+                $user->setEmail($sub['email']);
+                $user->setCompanie($sub['companie']);
+
+                $em->persist($user);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Votre profil a été mis à jour'
+                );
+
+                return $this->redirectToRoute('profilEdit');
+                
+            }
+
+        }
+
+
+        return $this->render('pages/profilEdit.html.twig',[
+            'formEditProfil' => $formEditProfil->createView(),
+            'editProfil' => $formEditProfil
+        ]);
+
+    }
+
+    /**
+     * @Route("/avatarEdit", name="avatarEdit")
+     */
+    public function avatarEdit(): Response
+    {
+        return $this->render('pages/avatarEdit.html.twig');
     }
 
 }

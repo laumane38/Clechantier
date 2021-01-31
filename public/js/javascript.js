@@ -36,13 +36,16 @@ if (document.getElementById('adress_zipCode')) {
 
     function ajaxZipCode(val, hote, cible) {
         $.ajax({
-            type: "POST",
             url: "ajax",
-            data: hote + '=' + val,
+            type: "POST",
             dataType: "json",
+            data: hote + '=' + val,
             success: function (data) {
-                console.log(response);
-                $("#" + cible + "").html(data);
+                $("#" + cible).html(data);
+            },
+            error: function (error) {
+                console.log("Error:");
+                console.log(error);
             }
         });
     }

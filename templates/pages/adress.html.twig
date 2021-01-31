@@ -7,7 +7,7 @@
 {% block body %}
 
 	<p>
-		Navigation :<a href="/">home</a>/<a href="membre">Espace membre</a>/<a href="profilModify">Modifier mon profil</a>
+		<a href="/">home</a>/<a href="membre">Espace membre</a>/<a href="profilModify">Modifier mon profil</a>
 	</p>
 
 	<div class="clearfix">
@@ -17,7 +17,7 @@
 			{{ form_start(formAdress) }}
 			{{ form_row(formAdress.adressTitle)}}
 			<br/>
-			{{ form_row(formAdress.genderUser)}}
+			{{ form_row(formAdress.gender)}}
 			{{ form_row(formAdress.firstName)}}
 			{{ form_row(formAdress.lastName)}}
 			<br/>
@@ -51,11 +51,11 @@
 						<div class="left">
 							<h4>{{oneAdress.AdressTitle}}<h4></div>
 								<div class="right">
-									<a href="supprimer/adress/{{oneAdress.id}}"><img src="../images/close.png" alt="Supprimer cette adresse" title="Supprimer cette adresse"/></a>
+									<a href="supprimer/adress/{{oneAdress.id}}"><img src="../images/buttons/close.png" alt="Supprimer cette adresse" title="Supprimer cette adresse"/></a>
 								</div>
 							</div>
 							<div class="padding10">
-								{{oneAdress.genderUser}}
+								{{oneAdress.gender}}
 								{{oneAdress.firstName}}
 								{{oneAdress.lastName}}<br/>
 								{{oneAdress.companie}}<br/>

@@ -31,7 +31,7 @@ class Adress
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $genderUser;
+    private $gender;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -122,14 +122,14 @@ class Adress
         return $this;
     }
 
-    public function getGenderUser(): ?string
+    public function getGender(): ?string
     {
-        return $this->genderUser;
+        return $this->gender;
     }
 
-    public function setGenderUser(?string $genderUser): self
+    public function setGender(?string $gender): self
     {
-        $this->genderUser = $genderUser;
+        $this->gender = $gender;
 
         return $this;
     }

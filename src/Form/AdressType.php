@@ -12,10 +12,25 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
+
 class AdressType extends AbstractType
 {
+
+    /**
+     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface    $tokenStorage
+     */
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $user = $this->tokenStorage->getToken()->getUser();
+        
         $builder
             ->add('adressTitle', TextType::class,[
                 'label'=>'Titre de l\'adresse : *',
@@ -26,7 +41,7 @@ class AdressType extends AbstractType
                     'placeholder'=>'Ex : Livraison'
                 ]
             ])
-            ->add('genderUser', ChoiceType::class,[
+            ->add('gender', ChoiceType::class,[
                 'label'=>'Genre',
                 'required'   => false,
                 'row_attr' => [
@@ -36,6 +51,9 @@ class AdressType extends AbstractType
                     'M'=>'M',
                     'Mme'=>'Mme',
                     'Mlle'=>'Mlle'
+                ],
+                'choice_attr' =>[
+                    $user->getGender()=> ['selected' => 'is_selected']
                 ]
             ])
             ->add('firstName',TextType::class,[
@@ -45,7 +63,8 @@ class AdressType extends AbstractType
                     'class' => 'input'
                 ],
                 'attr'=>[
-                    'placeholder'=>'Nom'
+                    'placeholder'=>'Nom',
+                    'value' => $user->getFirstName()
                 ]
             ])
             ->add('lastName', TextType::class,[
@@ -55,7 +74,8 @@ class AdressType extends AbstractType
                     'class' => 'input'
                 ],
                 'attr'=>[
-                    'placeholder'=>'Prénom'
+                    'placeholder'=>'Prénom',
+                    'value' => $user->getLastName()
                 ]
             ])
             ->add('companie', TextType::class,[
@@ -95,7 +115,7 @@ class AdressType extends AbstractType
                     'class' => 'input'
                 ],
                 'attr'=>[
-                    'placeholder'=>''
+                    'placeholder'=>'Code postal'
                 ]
             ])
             ->add('appartmentNumber', TextType::class,[

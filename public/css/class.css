@@ -22,11 +22,12 @@
 
 .titreSite{
 
-    font-size: 40px;
-    color: rgb(255, 255, 255);
+    font-size: 60px;
+    color: rgb(192, 101, 228);
     text-align: right;
-    text-shadow: rgb(48, 56, 170) 1px 0 10px;
-    padding: 50px;
+    text-shadow: rgb(48, 56, 170) 10px 5px 20px;
+    padding-top: 30px;
+    padding-right: 80px;
 }
 
 .input{
@@ -85,11 +86,13 @@
     border-radius: 4px;
     padding: 10px;
     margin: 10px;
+    background-color: white;
 }
 
 .bigicone:hover{
     border-color: black;
     box-shadow: 1px 1px 20px #555555;
+    background-color: white;
 }
 
 .floatleft50{
@@ -98,10 +101,23 @@
 }
 
 .postCard{
+    background-color: white;
     width: 500px;
     height: 320px;
     border: 1px solid #cccccc;
     border-radius: 4px;
     padding: 10px;
     margin: 10px;
+}
+
+.avatar{
+    position: absolute;
+
+}
+
+.avatarModify{
+    position: absolute;
+    text-align: right;
+    margin-left: 150px;
+    padding-top: 210px;
 }
