@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Adress;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Form\AvatarType;
 use App\Form\AdressType;
 use App\Form\ProfilType;
 use Symfony\Component\HttpFoundation\Request;
@@ -154,8 +155,6 @@ class MembreController extends AbstractController
 
             $formEditProfil->submit($request->request->get($formEditProfil->getName()));
 
-
-
             if($formEditProfil->isSubmitted()){
 
                 $sub = $request->request->get('profil');
@@ -180,7 +179,6 @@ class MembreController extends AbstractController
 
         }
 
-
         return $this->render('pages/profilEdit.html.twig',[
             'formEditProfil' => $formEditProfil->createView(),
             'editProfil' => $formEditProfil
@@ -193,7 +191,13 @@ class MembreController extends AbstractController
      */
     public function avatarEdit(): Response
     {
-        return $this->render('pages/avatarEdit.html.twig');
+
+        $formAvatar = $this->createForm(AvatarType::class);
+
+        return $this->render('pages/avatarEdit.html.twig',[
+            'formAvatar' => $formAvatar->createView(),
+            'editProfil' => $formAvatar
+        ]);
     }
 
 }

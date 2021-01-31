@@ -50,3 +50,8 @@ if (document.getElementById('adress_zipCode')) {
         });
     }
 }
+
+function changeAvatar(val) {
+    document.getElementById('avatar_avatar').value = val;
+    document.getElementById('avatar_button').style.visibility = 'visible';
+}
