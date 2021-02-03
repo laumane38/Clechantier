@@ -31,7 +31,8 @@ class InscriptionType extends AbstractType
                     'class' => 'input'
                 ],
                 'attr' => [
-                    'placeholder' => 'Mot de passe'
+                    'placeholder' => 'Mot de passe',
+                    'id' => 'password'
                 ]
             ])
             ->add('email', EmailType::class, [

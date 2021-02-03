@@ -76,14 +76,16 @@
         "symfony/polyfill-php72": "*"
     },
     "scripts": {
-        "init-dev-env": [
+        "init-system": [
             "symfony console doctrine:database:drop --if-exists --force",
             "symfony console doctrine:database:create",
             "symfony console doctrine:database:import sql/france1.sql",
             "symfony console doctrine:database:import sql/france2.sql",
             "symfony console doctrine:database:import sql/france3.sql",
             "symfony console doctrine:database:import sql/france4.sql",
-            "symfony console doctrine:schema:update --force",
+            "symfony console doctrine:schema:update --force"
+        ],
+        "load-system": [
             "symfony console doctrine:fixtures:load -n"
         ],
         "auto-scripts": {

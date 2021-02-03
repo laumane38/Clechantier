@@ -8,11 +8,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Form\AvatarType;
 use App\Form\AdressType;
 use App\Form\ProfilType;
+use App\Form\PasswordModifyType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 /**
  * Require ROLE_USER for *every* controller method in this class.
@@ -21,6 +24,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class MembreController extends AbstractController
 {
+    public function __construct(UserPasswordEncoderInterface $userPasswordEncoder)
+    {
+        $this->userPasswordEncoder = $userPasswordEncoder;
+    }
 
     /**
      * @Route("/membre", name="index_membre")
@@ -108,7 +115,7 @@ class MembreController extends AbstractController
 
                     $this->addFlash(
                         'success',
-                        'Nouvelle adresse enregistrée avec succès'
+                        'Nouvelle adresse enregistrée avec succès.'
                     );
 
                     return $this->redirectToRoute('adress');
@@ -118,7 +125,7 @@ class MembreController extends AbstractController
 
                     $this->addFlash(
                         'alert',
-                        'Donnez un titre à cette adresse'
+                        'Donnez un titre à cette adresse.'
                     );
                 }
 
@@ -160,7 +167,7 @@ class MembreController extends AbstractController
                 $sub = $request->request->get('profil');
 
                 $user->setGender($sub['gender']);
-                $user->setFirstname($sub['firstName']);
+                $user->setFirstName($sub['firstName']);
                 $user->setLastName($sub['lastName']);
                 $user->setEmail($sub['email']);
                 $user->setCompanie($sub['companie']);
@@ -170,7 +177,7 @@ class MembreController extends AbstractController
 
                 $this->addFlash(
                     'success',
-                    'Votre profil a été mis à jour'
+                    'Votre profil a été mis à jour.'
                 );
 
                 return $this->redirectToRoute('profilEdit');
@@ -179,9 +186,12 @@ class MembreController extends AbstractController
 
         }
 
+        
+
         return $this->render('pages/profilEdit.html.twig',[
             'formEditProfil' => $formEditProfil->createView(),
-            'editProfil' => $formEditProfil
+            'editProfil' => $formEditProfil,
+            'avatar' => $user->getAvatar()
         ]);
 
     }
@@ -189,15 +199,75 @@ class MembreController extends AbstractController
     /**
      * @Route("/avatarEdit", name="avatarEdit")
      */
-    public function avatarEdit(): Response
+    public function avatarEdit(Request $request, EntityManagerInterface $em): Response
     {
-
+        $user = $this->getUser();
         $formAvatar = $this->createForm(AvatarType::class);
+
+        if ($request->isMethod('POST')) {
+
+            $formAvatar->submit($request->request->get($formAvatar->getName()));
+
+            if($formAvatar->isSubmitted()){
+
+                $sub = $request->request->get('avatar');
+
+                $user->setAvatar($sub['avatar']);
+
+                $em->persist($user);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Votre avatar a été mis a jour.'
+                );
+
+                return $this->redirectToRoute('profilEdit');
+
+            }
+        }
 
         return $this->render('pages/avatarEdit.html.twig',[
             'formAvatar' => $formAvatar->createView(),
             'editProfil' => $formAvatar
         ]);
+    }
+
+    /**
+     * @Route("/passwordModify", name="passwordModify")
+     */
+    public function passwordModify(Request $request, EntityManagerInterface $em){
+
+        $user = $this->getUser();
+        $formPasswordModify = $this->createForm(PasswordModifyType::class);
+
+        if ($request->isMethod('POST')) {
+
+            $formPasswordModify->submit($request->request->get($formPasswordModify->getName()));
+
+            if($formPasswordModify->isSubmitted()){
+
+                $sub = $request->request->get('password_modify');
+
+
+                $user->setPassword($this->userPasswordEncoder->encodePassword($user, $sub['password']));
+
+                $em->persist($user);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Votre Mot de passe a été mis à jour.'
+                );
+
+            }
+
+        }
+
+        return $this->render('pages/passwordModify.html.twig',[
+            'formPasswordModify' => $formPasswordModify->createView()
+        ]);
+
     }
 
 }

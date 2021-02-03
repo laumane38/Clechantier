@@ -205,7 +205,7 @@ class User implements UserInterface
      */
     public function setFirstName(?string $firstName): self
     {
-        $this->name = $firstName;
+        $this->firstName = $firstName;
 
         return $this;
     }
