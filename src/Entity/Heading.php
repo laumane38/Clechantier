@@ -23,6 +23,11 @@ class Heading
     private $name;
 
     /**
+     * @ORM\OneToMany(targetEntity="Article", mappedBy="heading")
+     */
+    private $article;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $path;
@@ -40,6 +45,18 @@ class Heading
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getArticle(): ?string
+    {
+        return $this->article;
+    }
+
+    public function setArticle(string $article): self
+    {
+        $this->article = $article;
 
         return $this;
     }

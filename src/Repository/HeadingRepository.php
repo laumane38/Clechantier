@@ -35,7 +35,7 @@ class HeadingRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    
     /*
     public function findOneBySomeField($value): ?Heading
     {

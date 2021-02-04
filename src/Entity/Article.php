@@ -17,9 +17,9 @@ class Article
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    /** 
+    * @ORM\ManyToOne(targetEntity="Heading", inversedBy="article")  
+    */
     private $heading;
 
     /**
@@ -38,12 +38,12 @@ class Article
     private $owner;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $serial;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $year;
 
@@ -115,7 +115,7 @@ class Article
         return $this->serial;
     }
 
-    public function setSerial(string $serial): self
+    public function setSerial(?string $serial): self
     {
         $this->serial = $serial;
 
@@ -127,7 +127,7 @@ class Article
         return $this->year;
     }
 
-    public function setYear(int $year): self
+    public function setYear(?int $year): self
     {
         $this->year = $year;
 

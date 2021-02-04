@@ -185,8 +185,6 @@ class MembreController extends AbstractController
 
         }
 
-        
-
         return $this->render('pages/profilEdit.html.twig',[
             'formEditProfil' => $formEditProfil->createView(),
             'editProfil' => $formEditProfil,

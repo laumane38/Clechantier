@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
         if ($request->isMethod('POST')) {
             $formInscription->submit($request->request->get($formInscription->getName()));
 
-            if ($formInscription->isSubmitted()) {
+            if ($formInscription->isSubmitted() && $formInscription->isValid()) {
 
                 $dateTimeImmutable = new DateTimeImmutable();
 
