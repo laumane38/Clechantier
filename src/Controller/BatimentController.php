@@ -10,7 +10,7 @@ class BatimentController extends AbstractController
 {
 
     /**
-     * @Route("/batiment", name="index_batiment")
+     * @Route("/indexBatiment", name="indexBatiment")
      */
     public function index(): Response
     {

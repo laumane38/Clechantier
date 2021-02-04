@@ -9,24 +9,9 @@
 			</li>
 		</div>
 		<div class="right">
-			<li>
-				<a href="{{path('index_materiel')}}">Matériel</a>
-			</li>
-			<li>
-				<a href="{{path('index_levage')}}">Levage</a>
-			</li>
-			<li>
-				<a href="{{path('index_batiment')}}">Bâtiment</a>
-			</li>
-			<li>
-				<a href="{{path('index_tp')}}">travaux publics</a>
-			</li>
-			<li>
-				<a href="{{path('index_vehicule')}}">Véhicule</a>
-			</li>
-			<li>
-				<a href="{{path('index_personnel')}}">Personnel</a>
-			</li>
+			{{ render(controller(
+        		'App\\Controller\\NavBarController::navBar'
+    		)) }}
 		</div>
 	</ul>
 </nav>

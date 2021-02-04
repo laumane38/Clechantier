@@ -4,13 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Adress;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Form\AdressType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+
+/**
+ * Require ROLE_USER for *every* controller method in this class.
+ *
+ * @IsGranted("ROLE_USER")
+ */
 class AdressController extends AbstractController
 {
 

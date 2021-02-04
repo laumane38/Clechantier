@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Adress;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\AvatarType;
 use App\Form\AdressType;
@@ -249,7 +248,6 @@ class MembreController extends AbstractController
 
                 $sub = $request->request->get('password_modify');
 
-
                 $user->setPassword($this->userPasswordEncoder->encodePassword($user, $sub['password']));
 
                 $em->persist($user);
@@ -269,5 +267,6 @@ class MembreController extends AbstractController
         ]);
 
     }
+
 
 }

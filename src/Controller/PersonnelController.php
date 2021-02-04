@@ -10,7 +10,7 @@ class PersonnelController extends AbstractController
 {
 
     /**
-     * @Route("/personnel", name="index_personnel")
+     * @Route("/indexPersonnel", name="indexPersonnel")
      */
     public function index(): Response
     {

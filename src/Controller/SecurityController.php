@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ConnexionType;
 use DateTimeImmutable;
+use App\Form\PasswordForgetType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,5 +88,18 @@ class SecurityController extends AbstractController
     public function logout()
     {
         //throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    /**
+     * @Route("/passwordForget", name="passwordForget")
+     */
+    public function passwordForget(){
+
+        $formPasswordForget = $this->createForm(PasswordForgetType::class);
+
+
+        return $this->render('pages/passwordForget.html.twig',[
+            'formPasswordForget' => $formPasswordForget->createView()
+        ]);
     }
 }

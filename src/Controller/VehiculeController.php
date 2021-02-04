@@ -10,7 +10,7 @@ class VehiculeController extends AbstractController
 {
 
     /**
-     * @Route("/vehicule", name="index_vehicule")
+     * @Route("/indexVehicule", name="indexVehicule")
      */
     public function index(): Response
     {

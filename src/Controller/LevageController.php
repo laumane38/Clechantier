@@ -10,7 +10,7 @@ class LevageController extends AbstractController
 {
 
     /**
-     * @Route("/levage", name="index_levage")
+     * @Route("/indexLevage", name="index_levage")
      */
     public function index(): Response
     {

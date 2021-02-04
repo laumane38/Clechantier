@@ -10,7 +10,7 @@ class TpController extends AbstractController
 {
 
     /**
-     * @Route("/tp", name="index_tp")
+     * @Route("/indexTp", name="indexTp")
      */
     public function index(): Response
     {

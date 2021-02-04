@@ -10,7 +10,7 @@ class MaterielController extends AbstractController
 {
 
     /**
-     * @Route("/materiel", name="index_materiel")
+     * @Route("/indexMateriel", name="indexMateriel")
      */
     public function index(): Response
     {
