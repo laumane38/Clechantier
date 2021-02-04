@@ -51,85 +51,81 @@ class MembreController extends AbstractController
     {
 
         $user = $this->getUser();
-
         $formAdress = $this->createForm(AdressType::class);
+        $formAdress->handleRequest($request);
 
-        if ($request->isMethod('POST')) {
-            
-            $formAdress->submit($request->request->get($formAdress->getName()));
+        if ($formAdress->isSubmitted() && $formAdress->isValid())
+        {
 
-            if($formAdress->isSubmitted())
-            {
+            $sub = $request->request->get('adress');
 
-                $sub = $request->request->get('adress');
+            //si le code postal n'est pas renseigné on donne une valeur null pour que le code postal existe
+            if($sub['zipCode']==="") $sub['zipCode']= null;
 
-                //si le code postal n'est pas renseigné on donne une valeur null pour que le code postal existe
-                if($sub['zipCode']==="") $sub['zipCode']= null;
-
-                //si l'adresse n'est pas défini par defaut on lui donne valeur 0
-                //sinon on ne modife pas sa valeur mais on modifie la base de données pour que l'ancienne adresse par defaut ne le soit plus
-                if(empty($sub['defaultAdress'])){
-                    $sub['defaultAdress'] = 0;
-                }
-                else{
-
-                    $repo = $em->getRepository(Adress::class);
-                    $adressToSetNotDefault = $repo->findBy([
-                        'idProfil' => $user->getId(),
-                        'enable' => '1',
-                        'defaultAdress' => '1'
-                    ]);
-                    
-                    if(!empty($adressToSetNotDefault))
-                    {
-                        $adressToSetNotDefault[0]->setDefaultAdress(0);
-
-                        $em->persist($adressToSetNotDefault[0]);
-                        $em->flush();
-                    }
-                }
-
-                $adress = new Adress;
-                $adress->setIdProfil($user->getId());
-                $adress->setAdressTitle($sub['adressTitle']);
-                $adress->setGender($sub['gender']);
-                $adress->setFirstName($sub['firstName']);
-                $adress->setLastName($sub['lastName']);
-                $adress->setCompanie($sub['companie']);
-                $adress->setAdress($sub['adress']);
-                $adress->setAdress2($sub['adress2']);
-                $adress->setAppartmentNumber($sub['appartmentNumber']);
-                $adress->setFloor($sub['floor']);
-                $adress->setZipCode($sub['zipCode']);
-                $adress->setCity($sub['city']);
-                $adress->setCountry($sub['country']);
-                $adress->setDefaultAdress($sub['defaultAdress']);
-                $adress->setEnable(1);
-                
-
-                if($adress->getAdressTitle()!==""){
-
-                    $em->persist($adress);
-                    $em->flush();
-
-                    $this->addFlash(
-                        'success',
-                        'Nouvelle adresse enregistrée avec succès.'
-                    );
-
-                    return $this->redirectToRoute('adress');
-                    
-                }
-                else{
-
-                    $this->addFlash(
-                        'alert',
-                        'Donnez un titre à cette adresse.'
-                    );
-                }
-
+            //si l'adresse n'est pas défini par defaut on lui donne valeur 0
+            //sinon on ne modife pas sa valeur mais on modifie la base de données pour que l'ancienne adresse par defaut ne le soit plus
+            if(empty($sub['defaultAdress'])){
+                $sub['defaultAdress'] = 0;
             }
+            else{
+
+                $repo = $em->getRepository(Adress::class);
+                $adressToSetNotDefault = $repo->findBy([
+                    'idProfil' => $user->getId(),
+                    'enable' => '1',
+                    'defaultAdress' => '1'
+                ]);
+                
+                if(!empty($adressToSetNotDefault))
+                {
+                    $adressToSetNotDefault[0]->setDefaultAdress(0);
+
+                    $em->persist($adressToSetNotDefault[0]);
+                    $em->flush();
+                }
+            }
+
+            $adress = new Adress;
+            $adress->setIdProfil($user->getId());
+            $adress->setAdressTitle($sub['adressTitle']);
+            $adress->setGender($sub['gender']);
+            $adress->setFirstName($sub['firstName']);
+            $adress->setLastName($sub['lastName']);
+            $adress->setCompanie($sub['companie']);
+            $adress->setAdress($sub['adress']);
+            $adress->setAdress2($sub['adress2']);
+            $adress->setAppartmentNumber($sub['appartmentNumber']);
+            $adress->setFloor($sub['floor']);
+            $adress->setZipCode($sub['zipCode']);
+            $adress->setCity($sub['city']);
+            $adress->setCountry($sub['country']);
+            $adress->setDefaultAdress($sub['defaultAdress']);
+            $adress->setEnable(1);
+            
+
+            if($adress->getAdressTitle()!==""){
+
+                $em->persist($adress);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Nouvelle adresse enregistrée avec succès.'
+                );
+
+                return $this->redirectToRoute('adress');
+                
+            }
+            else{
+
+                $this->addFlash(
+                    'alert',
+                    'Donnez un titre à cette adresse.'
+                );
+            }
+
         }
+        
 
         $repo = $em->getRepository(Adress::class);
         $adress = $repo->findBy([
@@ -153,35 +149,30 @@ class MembreController extends AbstractController
     {
 
         $user = $this->getUser();
-
         $formEditProfil = $this->createForm(ProfilType::class);
 
+        $formEditProfil->handleRequest($request);
 
-        if ($request->isMethod('POST')) {
+        if ($formEditProfil->isSubmitted() && $formEditProfil->isValid())
+        {
 
-            $formEditProfil->submit($request->request->get($formEditProfil->getName()));
+            $sub = $request->request->get('profil');
 
-            if($formEditProfil->isSubmitted()){
+            $user->setGender($sub['gender']);
+            $user->setFirstName($sub['firstName']);
+            $user->setLastName($sub['lastName']);
+            $user->setEmail($sub['email']);
+            $user->setCompanie($sub['companie']);
 
-                $sub = $request->request->get('profil');
+            $em->persist($user);
+            $em->flush();
 
-                $user->setGender($sub['gender']);
-                $user->setFirstName($sub['firstName']);
-                $user->setLastName($sub['lastName']);
-                $user->setEmail($sub['email']);
-                $user->setCompanie($sub['companie']);
+            $this->addFlash(
+                'success',
+                'Votre profil a été mis à jour.'
+            );
 
-                $em->persist($user);
-                $em->flush();
-
-                $this->addFlash(
-                    'success',
-                    'Votre profil a été mis à jour.'
-                );
-
-                return $this->redirectToRoute('profilEdit');
-                
-            }
+            return $this->redirectToRoute('profilEdit');
 
         }
 
@@ -201,27 +192,24 @@ class MembreController extends AbstractController
         $user = $this->getUser();
         $formAvatar = $this->createForm(AvatarType::class);
 
-        if ($request->isMethod('POST')) {
+        $formAvatar->handleRequest($request);
 
-            $formAvatar->submit($request->request->get($formAvatar->getName()));
+        if ($formAvatar->isSubmitted() && $formAvatar->isValid()){
 
-            if($formAvatar->isSubmitted()){
+            $sub = $request->request->get('avatar');
 
-                $sub = $request->request->get('avatar');
+            $user->setAvatar($sub['avatar']);
 
-                $user->setAvatar($sub['avatar']);
+            $em->persist($user);
+            $em->flush();
 
-                $em->persist($user);
-                $em->flush();
+            $this->addFlash(
+                'success',
+                'Votre avatar a été mis a jour.'
+            );
 
-                $this->addFlash(
-                    'success',
-                    'Votre avatar a été mis a jour.'
-                );
+            return $this->redirectToRoute('profilEdit');
 
-                return $this->redirectToRoute('profilEdit');
-
-            }
         }
 
         return $this->render('pages/avatarEdit.html.twig',[
@@ -238,25 +226,21 @@ class MembreController extends AbstractController
         $user = $this->getUser();
         $formPasswordModify = $this->createForm(PasswordModifyType::class);
 
-        if ($request->isMethod('POST')) {
+        $formPasswordModify->handleRequest($request);
 
-            $formPasswordModify->submit($request->request->get($formPasswordModify->getName()));
+        if ($formPasswordModify->isSubmitted() && $formPasswordModify->isValid()){
 
-            if($formPasswordModify->isSubmitted()){
+            $sub = $request->request->get('password_modify');
 
-                $sub = $request->request->get('password_modify');
+            $user->setPassword($this->userPasswordEncoder->encodePassword($user, $sub['password']));
 
-                $user->setPassword($this->userPasswordEncoder->encodePassword($user, $sub['password']));
+            $em->persist($user);
+            $em->flush();
 
-                $em->persist($user);
-                $em->flush();
-
-                $this->addFlash(
-                    'success',
-                    'Votre Mot de passe a été mis à jour.'
-                );
-
-            }
+            $this->addFlash(
+                'success',
+                'Votre Mot de passe a été mis à jour.'
+            );
 
         }
 
@@ -265,6 +249,5 @@ class MembreController extends AbstractController
         ]);
 
     }
-
 
 }

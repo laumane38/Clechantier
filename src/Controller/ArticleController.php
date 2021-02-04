@@ -25,20 +25,18 @@ class ArticleController extends AbstractController
         $user = $this->getUser();
 
         $formArticleAdd = $this->createForm(ArticleType::class);
-        if ($request->isMethod('POST')) {
 
- 
-            $formArticleAdd->submit($request->request->get($formArticleAdd->getName()));
+        $formArticleAdd->handleRequest($request);
 
-            if ($formArticleAdd->isSubmitted() && $formArticleAdd->isValid()) {
-                
-            }
+        if ($formArticleAdd->isSubmitted() && $formArticleAdd->isValid()) {
+            dd($formArticleAdd);
         }
-
+        
 
         return $this->render('pages/articleAdd.html.twig', [
         'formArticleAdd' => $formArticleAdd->createView()
     ]);
+    
     }
     
 }
