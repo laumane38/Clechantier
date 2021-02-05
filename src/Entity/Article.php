@@ -59,6 +59,11 @@ class Article
     private $color;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $enable;
@@ -160,6 +165,18 @@ class Article
     public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

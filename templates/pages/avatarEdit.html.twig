@@ -6,7 +6,7 @@
 
 {% block body %}
 	<p>
-		<a href="/">home</a>/<a href="membre">Espace membre</a>/<a href="profilModify">Modifier mon profil</a>/<a href="profilEdit">Editer mon profil</a>
+		<a href="{{path('home')}}">home</a>/<a href="{{path('index_membre')}}">Espace membre</a>/<a href="{{path('profilModify')}}">Modifier mon profil</a>/<a href="profilEdit">Editer mon profil</a>
 	</p>
 	<h1>Modifier mon avatar</h1>
 	<div class="clearfix">

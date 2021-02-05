@@ -6,7 +6,7 @@
 
 {% block body %}
 	<p>
-		<a href="/">home</a>
+		<a href="{{path('home')}}">home</a>/<a href="{{path('index_membre')}}">Espace membre</a>
 	</p>
 	<h1>Ajouter un article</h1>
 
@@ -18,6 +18,7 @@
 	{{ form_row(formArticleAdd.year)}}
 	{{ form_row(formArticleAdd.location)}}
 	{{ form_row(formArticleAdd.color)}}
+	{{ form_row(formArticleAdd.description)}}
 
 	<button class="btn btn-lg btn-primary" type="submit">
 		Enregistrer

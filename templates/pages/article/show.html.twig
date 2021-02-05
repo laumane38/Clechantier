@@ -6,39 +6,51 @@
 
 {% block body %}
 	<p>
-		<a href="/">home</a>
+		<a href="{{path('home')}}">home</a>/<a href="{{path('index_membre')}}">Espace membre</a>/<a href="{{path('articleAdd')}}">Ajouter un article</a>
 	</p>
 	<h1>Voir mes articles</h1>
 	<div class="clearfix">
 		{% for article in articles %}
 
 			<div class="postCard">
-				<div class="right">
-					<a href="delete/article/{{article.id}}"><img src="../images/buttons/close.png" alt="Supprimer cet article" title="Supprimer cet article"/></a>
+				<div class="clearfix">
+					<div class="right">
+						<a href="delete/article/{{article.id}}"><img src="../images/buttons/close.png" alt="Supprimer cet article" title="Supprimer cet article"/></a>
+					</div>
+					<h3>{{article.brand}}
+						{{article.model}}</h3>
+					<div class="left">
+						<div>Numéro de série :
+							{{article.serial}}</div>
+						<div>Année de fabrication :
+							{{article.year}}</div>
+						<div>Localisation :
+							{{article.location}}</div>
+						<div>Couleur :
+							{{article.color}}</div>
+						<div>Description :
+
+							<p class="text-justify">{{ article.description|slice(0, 50) }}
+								(...)</p>
+
+
+						</div>
+					</div>
+					<div class="right">photo
+					</div>
+
 				</div>
-				<h3>{{article.brand}}
-					{{article.model}}</h3>
-				<div class="left">
-					<div>Numéro de série :
-						{{article.serial}}</div>
-					<div>Année de fabrication :
-						{{article.year}}</div>
-					<div>Localisation :
-						{{article.location}}</div>
-					<div>Couleur :
-						{{article.color}}</div>
-					<div>Model variant :</div>
-					<div>Options :</div>
-					<div>Date entretien :</div>
-					<div>Travaux effectués :</div>
-					<div>Description :</div>
-					<div>Photos :</div>
-				</div>
-				<div class="right">Gérer les options
+				<div>
+					<div class="spacer50"></div>
+					<a class="btn btn-primary" href="">Voir le détail</a>
+
+
 				</div>
 			</div>
 
 
 		{% endfor %}
 	</div>
+
+
 {% endblock %}

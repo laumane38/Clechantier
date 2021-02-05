@@ -69,8 +69,11 @@ class ArticleController extends AbstractController
         $articleToShow = $repo->findBy([
             'owner' => $user,
             'enable' => '1'
-        ]);
-
+        ],[
+            'id'=>'DESC'
+        ]
+        );
+        
         return $this->render('pages/article/show.html.twig',[
             'articles' => $articleToShow
         ]);
@@ -90,7 +93,8 @@ class ArticleController extends AbstractController
             'owner' => $user,
             'enable' => '1',
             'id' => $id
-        ],);
+        ],
+        );
 
         if (!empty($articleToDisable)) {
 
