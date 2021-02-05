@@ -51,7 +51,9 @@ class MembreController extends AbstractController
     {
 
         $user = $this->getUser();
-        $formAdress = $this->createForm(AdressType::class);
+        $adress = new Adress;
+
+        $formAdress = $this->createForm(AdressType::class, $adress);
         $formAdress->handleRequest($request);
 
         if ($formAdress->isSubmitted() && $formAdress->isValid())
@@ -85,21 +87,8 @@ class MembreController extends AbstractController
                 }
             }
 
-            $adress = new Adress;
+            
             $adress->setIdProfil($user->getId());
-            $adress->setAdressTitle($sub['adressTitle']);
-            $adress->setGender($sub['gender']);
-            $adress->setFirstName($sub['firstName']);
-            $adress->setLastName($sub['lastName']);
-            $adress->setCompanie($sub['companie']);
-            $adress->setAdress($sub['adress']);
-            $adress->setAdress2($sub['adress2']);
-            $adress->setAppartmentNumber($sub['appartmentNumber']);
-            $adress->setFloor($sub['floor']);
-            $adress->setZipCode($sub['zipCode']);
-            $adress->setCity($sub['city']);
-            $adress->setCountry($sub['country']);
-            $adress->setDefaultAdress($sub['defaultAdress']);
             $adress->setEnable(1);
             
 
@@ -149,20 +138,13 @@ class MembreController extends AbstractController
     {
 
         $user = $this->getUser();
-        $formEditProfil = $this->createForm(ProfilType::class);
+        $formEditProfil = $this->createForm(ProfilType::class,$user);
 
         $formEditProfil->handleRequest($request);
 
         if ($formEditProfil->isSubmitted() && $formEditProfil->isValid())
         {
 
-            $sub = $request->request->get('profil');
-
-            $user->setGender($sub['gender']);
-            $user->setFirstName($sub['firstName']);
-            $user->setLastName($sub['lastName']);
-            $user->setEmail($sub['email']);
-            $user->setCompanie($sub['companie']);
 
             $em->persist($user);
             $em->flush();
@@ -241,6 +223,8 @@ class MembreController extends AbstractController
                 'success',
                 'Votre Mot de passe a été mis à jour.'
             );
+
+            return $this->redirectToRoute('passwordModify');
 
         }
 

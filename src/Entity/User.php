@@ -77,6 +77,11 @@ class User implements UserInterface
      */
     private $avatar;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Article", mappedBy="owner")
+     */
+    private $article;
+
     public function getId(): ?int
     {
         return $this->id;

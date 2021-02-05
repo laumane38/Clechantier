@@ -40,12 +40,6 @@
     color: white;
 }
 
-.border1{
-    border-color: antiquewhite;
-    border-style: solid;
-    border: 1px;
-}
-
 .left{
     float: left;
 }
@@ -102,12 +96,13 @@
 
 .postCard{
     background-color: white;
-    width: 500px;
+    min-width: 600px;
     height: 320px;
     border: 1px solid #cccccc;
     border-radius: 4px;
     padding: 10px;
     margin: 10px;
+    float: left;
 }
 
 .avatar{

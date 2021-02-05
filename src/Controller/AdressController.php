@@ -20,24 +20,24 @@ class AdressController extends AbstractController
 {
 
     /**
-     * @Route("/supprimer/adress/{id}", name="delete_adress")
+     * @Route("/delete/adress/{id}", name="delete_adress")
      */
     public function deleteAdress($id, EntityManagerInterface $em, request $request): Response
     {
         $user = $this->getUser();
 
         $repo = $em->getRepository(Adress::class);
-        $adressToDisable = $repo->findBy([
+        $adressToDisable = $repo->findOneBy([
             'idProfil' => $user->getId(),
             'enable' => '1',
             'id' => $id
         ],);
 
-        if(!empty($adressToDisable[0])){
+        if(!empty($adressToDisable)){
 
-            $adressToDisable[0]->setEnable(0);
-            $adressToDisable[0]->setDefaultAdress(0);
-            $em->persist($adressToDisable[0]);
+            $adressToDisable->setEnable(0);
+            $adressToDisable->setDefaultAdress(0);
+            $em->persist($adressToDisable);
             $em->flush();
 
             $this->addFlash(

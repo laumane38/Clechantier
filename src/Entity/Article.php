@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,9 +33,9 @@ class Article
      */
     private $model;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+   /** 
+    * @ORM\ManyToOne(targetEntity="User", inversedBy="article")  
+    */
     private $owner;
 
     /**
@@ -57,17 +58,22 @@ class Article
      */
     private $color;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enable;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getHeading(): ?int
+    public function getHeading(): ?Heading
     {
         return $this->heading;
     }
 
-    public function setHeading(int $heading): self
+    public function setHeading(Heading $heading): self
     {
         $this->heading = $heading;
 
@@ -98,12 +104,12 @@ class Article
         return $this;
     }
 
-    public function getOwner(): ?int
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
-    public function setOwner(int $owner): self
+    public function setOwner(User $owner): self
     {
         $this->owner = $owner;
 
@@ -154,6 +160,18 @@ class Article
     public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getEnable(): ?bool
+    {
+        return $this->enable;
+    }
+
+    public function setEnable(?bool $enable): self
+    {
+        $this->enable = $enable;
 
         return $this;
     }

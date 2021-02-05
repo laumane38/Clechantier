@@ -49,18 +49,6 @@ class Heading
         return $this;
     }
 
-    public function getArticle(): ?string
-    {
-        return $this->article;
-    }
-
-    public function setArticle(string $article): self
-    {
-        $this->article = $article;
-
-        return $this;
-    }
-
     public function getPath(): ?string
     {
         return $this->path;
