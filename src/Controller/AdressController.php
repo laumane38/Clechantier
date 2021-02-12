@@ -20,7 +20,7 @@ class AdressController extends AbstractController
 {
 
     /**
-     * @Route("/delete/adress/{id}", name="delete_adress")
+     * @Route("/delete/adress/{id}", name="adressDelete")
      */
     public function deleteAdress($id, EntityManagerInterface $em, request $request): Response
     {
@@ -28,7 +28,7 @@ class AdressController extends AbstractController
 
         $repo = $em->getRepository(Adress::class);
         $adressToDisable = $repo->findOneBy([
-            'idProfil' => $user->getId(),
+            'user' => $user,
             'enable' => '1',
             'id' => $id
         ],);
@@ -60,7 +60,7 @@ class AdressController extends AbstractController
     }
 
     /**
-     * @Route("/setDefault/adress/{id}", name="set_default_adress")
+     * @Route("/setDefault/adress/{id}", name="adressSetDefault")
      */
     public function setDefaultAdress($id, EntityManagerInterface $em, request $request): Response
     {
@@ -68,32 +68,32 @@ class AdressController extends AbstractController
         $user = $this->getUser();
 
         $repo = $em->getRepository(Adress::class);
-        $adressToSetDefault = $repo->findBy([
-            'idProfil' => $user->getId(),
+        $adressToSetDefault = $repo->findOneBy([
+            'user' => $user,
             'enable' => '1',
             'id' => $id,
             'defaultAdress'=>'0'
 
         ],);
 
-        $adressToUnSetDefault = $repo->findBy([
-            'idProfil' => $user->getId(),
+        $adressToUnSetDefault = $repo->findOneBy([
+            'user' => $user,
             'enable' => '1',
             'defaultAdress'=>'1'
         ],);
 
 
 
-        if(!empty($adressToSetDefault[0])){
+        if(!empty($adressToSetDefault)){
 
-            $adressToSetDefault[0]->setDefaultAdress(1);
+            $adressToSetDefault->setDefaultAdress(1);
 
-            if(!empty($adressToUnSetDefault[0])){
-                $adressToUnSetDefault[0]->setDefaultAdress(0);
-                $em->persist($adressToUnSetDefault[0]);
+            if(!empty($adressToUnSetDefault)){
+                $adressToUnSetDefault->setDefaultAdress(0);
+                $em->persist($adressToUnSetDefault);
             }
 
-            $em->persist($adressToSetDefault[0]);
+            $em->persist($adressToSetDefault);
             
             $em->flush();
 

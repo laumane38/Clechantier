@@ -36,7 +36,7 @@ class Article
    /** 
     * @ORM\ManyToOne(targetEntity="User", inversedBy="article")  
     */
-    private $owner;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -109,14 +109,14 @@ class Article
         return $this;
     }
 
-    public function getOwner(): ?User
+    public function getUser(): ?User
     {
-        return $this->owner;
+        return $this->user;
     }
 
-    public function setOwner(User $owner): self
+    public function setUser(User $user): self
     {
-        $this->owner = $owner;
+        $this->user = $user;
 
         return $this;
     }

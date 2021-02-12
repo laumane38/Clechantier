@@ -3,16 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Adress;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Form\AvatarType;
 use App\Form\AdressType;
+use App\Form\AvatarType;
 use App\Form\ProfilType;
-use App\Form\PasswordModifyType;
+use App\Entity\OperationList;
+use App\Entity\OptionList;
+use App\Form\OperationListAddType;
+use App\Form\OptionListAddType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -72,23 +75,22 @@ class MembreController extends AbstractController
             else{
 
                 $repo = $em->getRepository(Adress::class);
-                $adressToSetNotDefault = $repo->findBy([
-                    'idProfil' => $user->getId(),
+                $adressToSetNotDefault = $repo->findOneBy([
+                    'user' => $user,
                     'enable' => '1',
                     'defaultAdress' => '1'
                 ]);
                 
                 if(!empty($adressToSetNotDefault))
                 {
-                    $adressToSetNotDefault[0]->setDefaultAdress(0);
+                    $adressToSetNotDefault->setDefaultAdress(0);
 
-                    $em->persist($adressToSetNotDefault[0]);
+                    $em->persist($adressToSetNotDefault);
                     $em->flush();
                 }
             }
 
-            
-            $adress->setIdProfil($user->getId());
+            $adress->setUser($user);
             $adress->setEnable(1);
             
 
@@ -118,7 +120,7 @@ class MembreController extends AbstractController
 
         $repo = $em->getRepository(Adress::class);
         $adress = $repo->findBy([
-            'idProfil' => $user->getId(),
+            'user' => $user,
             'enable' => '1'
         ],[
             'defaultAdress'=>'DESC',
@@ -201,36 +203,161 @@ class MembreController extends AbstractController
     }
 
     /**
-     * @Route("/passwordModify", name="passwordModify")
+     * @Route("/userConfig", name="userConfig")
      */
-    public function passwordModify(Request $request, EntityManagerInterface $em){
-
+    public function userConfig(request $request, EntityManagerInterface $em): Response
+    {
         $user = $this->getUser();
-        $formPasswordModify = $this->createForm(PasswordModifyType::class);
+        
+        $operationListAdd = new OperationList;
+        $formOperationListAdd = $this->createForm(OperationListAddType::class,$operationListAdd);
 
-        $formPasswordModify->handleRequest($request);
+        $formOperationListAdd->handleRequest($request);
 
-        if ($formPasswordModify->isSubmitted() && $formPasswordModify->isValid()){
+        if ($formOperationListAdd->isSubmitted() && $formOperationListAdd->isValid()) {
 
-            $sub = $request->request->get('password_modify');
+            $operationListAdd->setUser($user);
+            $operationListAdd->setEnable('1');
 
-            $user->setPassword($this->userPasswordEncoder->encodePassword($user, $sub['password']));
-
-            $em->persist($user);
+            $em->persist($operationListAdd);
             $em->flush();
 
             $this->addFlash(
                 'success',
-                'Votre Mot de passe a été mis à jour.'
+                'Votre opération a été créé.'
             );
 
-            return $this->redirectToRoute('passwordModify');
-
+            return $this->redirectToRoute('userConfig');
+     
         }
 
-        return $this->render('pages/passwordModify.html.twig',[
-            'formPasswordModify' => $formPasswordModify->createView()
+        $optionListAdd = new OptionList;
+        $formOptionListAdd = $this->createForm(OptionListAddType::class,$optionListAdd);
+
+        $formOptionListAdd->handleRequest($request);
+
+        if ($formOptionListAdd->isSubmitted() && $formOptionListAdd->isValid()) {
+
+            $optionListAdd->setUser($user);
+            $optionListAdd->setEnable('1');
+
+            $em->persist($optionListAdd);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre option a été créé.'
+            );
+
+            return $this->redirectToRoute('userConfig');
+     
+        }
+
+        $repo = $em->getRepository(OperationList::class);
+        $operationsToShow = $repo->findBy([
+            'user' => $user,
+            'enable' => '1'
+        ],
+        );
+
+        $repo = $em->getRepository(OptionList::class);
+        $optionsToShow = $repo->findBy([
+            'user' => $user,
+            'enable' => '1'
+        ],
+        );
+
+        return $this->render('pages/userConfig.html.twig',[
+            'formOperationListAdd' => $formOperationListAdd->createView(),
+            'operations' => $operationsToShow,
+            'formOptionListAdd' => $formOptionListAdd->createView(),
+            'options' => $optionsToShow
         ]);
+
+    }
+
+
+    /**
+     * @Route("/userConfig/deleteOperation/{id}", name="userConfigDeleteOperation")
+     */
+    public function deleteOperation(request $request, $id, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+
+        $repo = $em->getRepository(OperationList::class);
+        $operationsToDelete = $repo->findOneBy([
+            'user' => $user,
+            'enable' => '1',
+            'id' => $id
+        ],
+        );
+
+        
+        if (!empty($operationsToDelete)) {
+
+            $operationsToDelete->setEnable(0);
+            $em->persist($operationsToDelete);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre opération a bien été supprimé.'
+            );
+
+        }
+        else
+        {
+
+            $this->addFlash(
+                'alert',
+                'Il n\'y a rien à supprimer. Cet élément a déjà été supprimé ou il ne vous appartient pas.'
+            );
+    
+        }
+
+        return $this->redirectToRoute('userConfig');
+
+    }
+
+        /**
+     * @Route("/userConfig/deleteOption/{id}", name="userConfigDeleteOption")
+     */
+    public function deleteOption(request $request, $id, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+
+        $repo = $em->getRepository(OptionList::class);
+        $optionsToDelete = $repo->findOneBy([
+            'user' => $user,
+            'enable' => '1',
+            'id' => $id
+        ],
+        );
+
+        
+        if (!empty($optionsToDelete)) {
+
+            $optionsToDelete->setEnable(0);
+            $em->persist($optionsToDelete);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre option a bien été supprimé.'
+            );
+
+        }
+        else
+        {
+
+            $this->addFlash(
+                'alert',
+                'Il n\'y a rien à supprimer. Cet élément a déjà été supprimé ou il ne vous appartient pas.'
+            );
+    
+        }
+
+        return $this->redirectToRoute('userConfig');
 
     }
 

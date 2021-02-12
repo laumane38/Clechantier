@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modifier article
+{% endblock %}
+
+{% block body %}
+	<p>
+		<a href="{{path('home')}}">home</a>/<a href="{{path('index_membre')}}">Espace membre</a>
+	</p>
+	<h1>Modifier un article</h1>
+
+	{{ form_start(formArticleToModify) }}
+	{{ form_row(formArticleToModify.heading)}}
+	{{ form_row(formArticleToModify.brand)}}
+	{{ form_row(formArticleToModify.model)}}
+	{{ form_row(formArticleToModify.serial)}}
+	{{ form_row(formArticleToModify.year)}}
+	{{ form_row(formArticleToModify.location)}}
+	{{ form_row(formArticleToModify.color)}}
+	{{ form_row(formArticleToModify.description)}}
+
+	<button class="btn btn-lg btn-primary" type="submit">
+		Modifier
+	</button>
+	{{ form_end(formArticleToModify) }}
+
+
+{% endblock %}

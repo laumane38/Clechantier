@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Mon article
+{% endblock %}
+
+{% block body %}
+
+	<p>
+		<a href="{{path('home')}}">home</a>/<a href="{{path('index_membre')}}">Espace membre</a>/<a href="{{path('articleAdd')}}">Ajouter un article</a>
+	</p>
+
+	<div class="clearfix">
+		<div class="w-50 left">
+			<h1>Mon article</h1>
+			<h2>Généralités</h2>
+			<h3>{{article.brand}}
+				{{article.model}}</h3>
+			<div>Numéro de série :
+				{{article.serial}}</div>
+			<div>Année de fabrication :
+				{{article.year}}</div>
+			<div>Localisation :
+				{{article.location}}</div>
+			<div>Couleur :
+				{{article.color}}</div>
+			<div>
+				<p class="text-justify">Description :{{ article.description }}
+				</p>
+			</div>
+			<a class="btn btn-primary" href="{{path('articleModify',{id:article.id})}}">Modifier</a>
+
+		</div>
+
+	</div>
+{% endblock %}

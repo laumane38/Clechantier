@@ -1,0 +1,83 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Configurer le compte
+{% endblock %}
+
+{% block body %}
+	<p>
+		<a href="{{path('home')}}">home</a>/<a href="{{path('index_membre')}}">Espace membre</a>
+	</p>
+	<h1>Configurer le compte</h1>
+
+	<div class="clearfix">
+		<div class="w-50 left">
+
+			<h3>enregistrer un nouveau type d'opération</h3>
+
+			{{ form_start(formOperationListAdd) }}
+			{{ form_row(formOperationListAdd.name)}}
+			{{ form_row(formOperationListAdd.defaultPrice)}}
+
+			<button class="btn btn-lg btn-primary" type="submit">
+				Enregistrer
+			</button>
+
+			{{ form_end(formOperationListAdd) }}
+
+			<div class="spacer50"></div>
+
+		</div>
+		<div class="w-50 left">
+			<h3>Mes opérations enregistrées</h3>
+			{% for operation in operations %}
+
+				<div>{{operation.name}}
+					({{operation.defaultPrice}}
+					€)
+					<a href="userConfig/deleteOperation/{{operation.id}}">supprimer</a>
+				</div>
+
+			{% endfor %}
+			{% if operations is empty %}
+				<p>Exemple d'opération : Montage, Démontage, Entretien, dépannage...</p>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="clearfix">
+		<div class="w-50 left">
+
+			<h3>enregistrer un nouveau type d'option</h3>
+
+			{{ form_start(formOptionListAdd) }}
+			{{ form_row(formOptionListAdd.name)}}
+			{{ form_row(formOptionListAdd.defaultPrice)}}
+
+			<button class="btn btn-lg btn-primary" type="submit">
+				Enregistrer
+			</button>
+
+			{{ form_end(formOptionListAdd) }}
+
+			<div class="spacer50"></div>
+
+		</div>
+		<div class="w-50 left">
+			<h3>Mes options enregistrées</h3>
+			{% for option in options %}
+
+				<div>{{option.name}}
+					({{option.defaultPrice}}
+					€)
+					<a href="userConfig/deleteOption/{{option.id}}">supprimer</a>
+				</div>
+
+			{% endfor %}
+			{% if options is empty %}
+				<p>Exemple d'option : Radiocommande, balisage diurne ou nocturne...</p>
+			{% endif %}
+		</div>
+	</div>
+
+{% endblock %}

@@ -15,7 +15,7 @@
 			<div class="postCard">
 				<div class="clearfix">
 					<div class="right">
-						<a href="delete/article/{{article.id}}"><img src="../images/buttons/close.png" alt="Supprimer cet article" title="Supprimer cet article"/></a>
+						<a href="{{path('articleDelete',{id:article.id})}}"><img src="../images/buttons/close.png" alt="Supprimer cet article" title="Supprimer cet article"/></a>
 					</div>
 					<h3>{{article.brand}}
 						{{article.model}}</h3>
@@ -28,29 +28,25 @@
 							{{article.location}}</div>
 						<div>Couleur :
 							{{article.color}}</div>
-						<div>Description :
-
-							<p class="text-justify">{{ article.description|slice(0, 50) }}
+						<p class="text-justify">
+							<div>Description :
+								{{ article.description|slice(0, 50) }}
 								(...)</p>
-
-
-						</div>
+						</p>
 					</div>
-					<div class="right">photo
-					</div>
-
 				</div>
-				<div>
-					<div class="spacer50"></div>
-					<a class="btn btn-primary" href="">Voir le détail</a>
-
-
+				<div class="right">photo
 				</div>
+
 			</div>
+			<div>
+				<div class="spacer50"></div>
+				<a class="btn btn-primary" href="{{path('articleDetail',{id:article.id})}}">Voir le détail</a>
+				<a class="btn btn-primary" href="{{path('articleModify',{id:article.id})}}">Modifier</a>
+
+			</div>
+		</div>
 
 
-		{% endfor %}
-	</div>
-
-
-{% endblock %}
+	{% endfor %}
+</div>{% endblock %}

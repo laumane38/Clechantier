@@ -19,9 +19,9 @@ class Adress
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+    * @ORM\ManyToOne(targetEntity="User", inversedBy="adress")
      */
-    private $idProfil;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -98,14 +98,14 @@ class Adress
         return $this->id;
     }
 
-    public function getIdProfil(): ?int
+    public function getUser(): ?User
     {
-        return $this->idProfil;
+        return $this->user;
     }
 
-    public function setIdProfil(?string $idProfil): self
+    public function setUser(?User $user): self
     {
-        $this->idProfil = $idProfil;
+        $this->user = $user;
 
         return $this;
     }

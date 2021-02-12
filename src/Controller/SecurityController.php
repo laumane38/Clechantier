@@ -3,14 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\ConnexionType;
 use DateTimeImmutable;
+use App\Form\ConnexionType;
 use App\Form\PasswordForgetType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\PasswordModifyType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -91,15 +93,50 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/passwordForget", name="passwordForget")
+     * @Route("/security/passwordForget", name="passwordForget")
      */
     public function passwordForget(){
 
         $formPasswordForget = $this->createForm(PasswordForgetType::class);
 
 
-        return $this->render('pages/passwordForget.html.twig',[
+        return $this->render('security/passwordForget.html.twig',[
             'formPasswordForget' => $formPasswordForget->createView()
         ]);
+    }
+
+    /**
+     * @Route("/security/passwordModify", name="passwordModify")
+     * @IsGranted("ROLE_USER")
+     */
+    public function passwordModify(Request $request, EntityManagerInterface $em){
+
+        $user = $this->getUser();
+        $formPasswordModify = $this->createForm(PasswordModifyType::class);
+
+        $formPasswordModify->handleRequest($request);
+
+        if ($formPasswordModify->isSubmitted() && $formPasswordModify->isValid()){
+
+            $sub = $request->request->get('password_modify');
+
+            $user->setPassword($this->userPasswordEncoder->encodePassword($user, $sub['password']));
+
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre Mot de passe a été mis à jour.'
+            );
+
+            return $this->redirectToRoute('passwordModify');
+
+        }
+
+        return $this->render('security/passwordModify.html.twig',[
+            'formPasswordModify' => $formPasswordModify->createView()
+        ]);
+
     }
 }

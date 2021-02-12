@@ -51,7 +51,7 @@
 						<div class="left">
 							<h4>{{oneAdress.AdressTitle}}<h4></div>
 								<div class="right">
-									<a href="delete/adress/{{oneAdress.id}}"><img src="../images/buttons/close.png" alt="Supprimer cette adresse" title="Supprimer cette adresse"/></a>
+									<a href="{{path('adressDelete',{id:oneAdress.id})}}"><img src="../images/buttons/close.png" alt="Supprimer cette adresse" title="Supprimer cette adresse"/></a>
 								</div>
 							</div>
 							<div class="padding10">
@@ -68,7 +68,7 @@
 								{{oneAdress.country}}<br/>
 								<br/>
 								{% if oneAdress.defaultAdress ==0 %}
-									<a href="setDefault/adress/{{oneAdress.id}}" class="btn btn-primary">Définir comme adresse par défaut</a>
+									<a href="{{path('adressSetDefault',{id:oneAdress.id})}}" class="btn btn-primary">Définir comme adresse par défaut</a>
 								{% else %}
 									Adresse par défaut
 								{% endif %}

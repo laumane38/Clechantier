@@ -96,7 +96,8 @@ class ArticleType extends AbstractType
                     'class' => 'input'
                 ],
                 'attr'=>[
-                    'placeholder'=>'Description'
+                    'placeholder' => 'Description',
+                    'class' => 'form-control'
                 ],
                 'required' => false,
             ])

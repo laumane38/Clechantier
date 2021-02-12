@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\OperationList;
 use App\Form\ArticleType;
+use App\Form\OperationListAddType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +38,7 @@ class ArticleController extends AbstractController
 
         if ($formArticleAdd->isSubmitted() && $formArticleAdd->isValid()) {
 
-            $article->setOwner($user);
+            $article->setUser($user);
             $article->setEnable('1');
 
             $em->persist($article);
@@ -67,7 +69,7 @@ class ArticleController extends AbstractController
 
         $repo = $em->getRepository(Article::class);
         $articleToShow = $repo->findBy([
-            'owner' => $user,
+            'user' => $user,
             'enable' => '1'
         ],[
             'id'=>'DESC'
@@ -81,7 +83,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/delete/article/{id}", name="delete")
+     * @Route("/delete/{id}", name="articleDelete")
      */
     public function delete($id,EntityManagerInterface $em): Response
     {
@@ -90,7 +92,7 @@ class ArticleController extends AbstractController
 
         $repo = $em->getRepository(Article::class);
         $articleToDisable = $repo->findOneBy([
-            'owner' => $user,
+            'user' => $user,
             'enable' => '1',
             'id' => $id
         ],
@@ -110,6 +112,67 @@ class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('articleShow');
+
+    }
+
+    /**
+     * @Route("/detail/{id}", name="articleDetail")
+     */
+    public function detail(Request $request, $id, EntityManagerInterface $em): Response
+    {
+
+        $user = $this->getUser();
+
+        $repo = $em->getRepository(Article::class);
+        $articleToShow = $repo->findOneBy([
+            'user' => $user,
+            'enable' => '1',
+            'id' => $id
+        ],
+        );
+
+        return $this->render('pages/article/detail.html.twig',[
+            'article' => $articleToShow
+            ]);
+    }
+
+    /**
+     * @Route("/modify/{id}", name="articleModify")
+     */
+    public function modify($id, Request $request, EntityManagerInterface $em): Response
+    {
+
+        $user = $this->getUser();
+
+        $repo = $em->getRepository(Article::class);
+        $articleToModify = $repo->findOneBy([
+            'user' => $user,
+            'enable' => '1',
+            'id' => $id
+        ],
+        );
+
+        $formArticleToModify = $this->createForm(ArticleType::class,$articleToModify);
+
+        $formArticleToModify->handleRequest($request);
+
+        if ($formArticleToModify->isSubmitted() && $formArticleToModify->isValid()) {
+
+            $em->persist($articleToModify);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre article a été mofifié.'
+            );
+
+            return $this->redirectToRoute('articleShow');
+     
+        }
+
+        return $this->render('pages/article/modify.html.twig', [
+        'formArticleToModify' => $formArticleToModify->createView()
+        ]);
 
     }
 
