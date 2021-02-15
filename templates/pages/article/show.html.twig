@@ -30,12 +30,13 @@
 							{{article.color}}</div>
 						<p class="text-justify">
 							<div>Description :
-								{{ article.description|slice(0, 50) }}
+								{{ article.description|slice(0, 40) }}
 								(...)</p>
 						</p>
 					</div>
 				</div>
-				<div class="right">photo
+				<div class="right">
+					<img width="130" src="/{{article.imageMain}}"/>
 				</div>
 
 			</div>

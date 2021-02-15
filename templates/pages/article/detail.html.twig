@@ -11,26 +11,41 @@
 	</p>
 
 	<div class="clearfix">
-		<div class="w-50 left">
-			<h1>Mon article</h1>
-			<h2>Généralités</h2>
-			<h3>{{article.brand}}
-				{{article.model}}</h3>
-			<div>Numéro de série :
-				{{article.serial}}</div>
-			<div>Année de fabrication :
-				{{article.year}}</div>
-			<div>Localisation :
-				{{article.location}}</div>
-			<div>Couleur :
-				{{article.color}}</div>
-			<div>
-				<p class="text-justify">Description :{{ article.description }}
-				</p>
-			</div>
-			<a class="btn btn-primary" href="{{path('articleModify',{id:article.id})}}">Modifier</a>
 
+		<h1>Mon article</h1>
+		<div class="spacer50"></div>
+		<h2>Généralités</h2>
+		<h3>{{article.brand}}
+			{{article.model}}</h3>
+		<div>Numéro de série :
+			{{article.serial}}</div>
+		<div>Année de fabrication :
+			{{article.year}}</div>
+		<div>Localisation :
+			{{article.location}}</div>
+		<div>Couleur :
+			{{article.color}}</div>
+		<div>
+			<p class="text-justify">Description :{{ article.description }}
+			</p>
 		</div>
+		<a class="btn btn-primary" href="{{path('articleModify',{id:article.id})}}">Modifier</a>
+		<div class="spacer50"></div>
+		<h2>Images de l'article</h2>
+
+		{% for image in images%}
+			<img width="200" src="/{{image.path}}"/>
+		{% endfor %}
+
+		<div class="spacer50"></div>
+		<h2>Télécharger des images</h2>
+
+		{{ form_start(formArticleDlImg) }}
+		{{form_row(formArticleDlImg.path)}}
+		<button class="btn btn-lg btn-primary" type="submit">
+			Enregistrer
+		</button>
+		{{ form_end(formArticleDlImg) }}
 
 	</div>
 {% endblock %}

@@ -103,14 +103,15 @@ class AdressController extends AbstractController
             );
 
         }
-        else{
+        else
+        {
 
             $this->addFlash(
                 'alert',
                 'Il n\'y a rien à définir par défaut. Cet élément a déjà été modifié ou il ne vous appartient pas.'
             );
     
-            }
+        }
 
         return $this->redirectToRoute('adress');
     }

@@ -23,6 +23,21 @@ class Article
     */
     private $heading;
 
+    /** 
+    * @ORM\ManyToOne(targetEntity="RentalType", inversedBy="article")  
+    */
+    private $rentalType;
+
+    /** 
+    * @ORM\ManyToOne(targetEntity="Currency", inversedBy="article")  
+    */
+    private $currency;
+
+    /** 
+    * @ORM\OneToMany(targetEntity="Image", mappedBy="article")  
+    */
+    private $image;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -59,9 +74,19 @@ class Article
     private $color;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $price;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $imageMain;
 
     /**
      * @ORM\Column(type="boolean")
@@ -81,6 +106,30 @@ class Article
     public function setHeading(Heading $heading): self
     {
         $this->heading = $heading;
+
+        return $this;
+    }
+
+    public function getRentalType(): ?RentalType
+    {
+        return $this->rentalType;
+    }
+
+    public function setRentalType(RentalType $rentalType): self
+    {
+        $this->rentalType = $rentalType;
+
+        return $this;
+    }
+
+    public function getCurrency(): ?Currency
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(Currency $currency): self
+    {
+        $this->currency = $currency;
 
         return $this;
     }
@@ -169,6 +218,18 @@ class Article
         return $this;
     }
 
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?string $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -177,6 +238,18 @@ class Article
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImageMain(): ?string
+    {
+        return $this->imageMain;
+    }
+
+    public function setImageMain(?string $imageMain): self
+    {
+        $this->imageMain = $imageMain;
 
         return $this;
     }

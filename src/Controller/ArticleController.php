@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Article;
-use App\Entity\OperationList;
 use App\Form\ArticleType;
+use App\Entity\OperationList;
+use App\Form\ArticleDlImgType;
 use App\Form\OperationListAddType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use  Symfony\Component\HttpFoundation\File\File;
 
 
 /**
@@ -41,6 +44,13 @@ class ArticleController extends AbstractController
             $article->setUser($user);
             $article->setEnable('1');
 
+            $directory = "images/download/";
+            $filename = $user->getPseudo()."-".time().".jpg";
+            $file = $formArticleAdd['imageMain']->getData();
+            $file->move($directory, $filename);
+
+            $article->setImageMain($directory.$filename);
+
             $em->persist($article);
             $em->flush();
 
@@ -66,14 +76,16 @@ class ArticleController extends AbstractController
     {
 
         $user = $this->getUser();
+        $showByPage = 10;
 
         $repo = $em->getRepository(Article::class);
         $articleToShow = $repo->findBy([
             'user' => $user,
             'enable' => '1'
-        ],[
+            ],[
             'id'=>'DESC'
-        ]
+        ],
+        $showByPage
         );
         
         return $this->render('pages/article/show.html.twig',[
@@ -131,8 +143,44 @@ class ArticleController extends AbstractController
         ],
         );
 
-        return $this->render('pages/article/detail.html.twig',[
+        $image = new Image;
+        $formArticleDlImg = $this->createForm(ArticleDlImgType::class,$image);
+
+        $formArticleDlImg->handleRequest($request);
+
+        if ($formArticleDlImg->isSubmitted() && $formArticleDlImg->isValid()) {
+
+            $directory = "images/download/";
+            $filename = $user->getPseudo()."-".time().".jpg";
+
+            $file = $formArticleDlImg['path']->getData();
+            $file->move($directory, $filename);
+
+            $image->setPath($directory.$filename);
+            $image->setArticle($articleToShow);
+            $em->persist($image);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre image a bien été téléchargé.'
+            );
+
+        }
+
+
+
+        $repo = $em->getRepository(Image::class);
+        $imagesToShow = $repo->findBy([
             'article' => $articleToShow
+            ],
+        );
+
+
+        return $this->render('pages/article/detail.html.twig',[
+            'article' => $articleToShow,
+            'formArticleDlImg' => $formArticleDlImg->createView(),
+            'images' => $imagesToShow
             ]);
     }
 
@@ -157,6 +205,14 @@ class ArticleController extends AbstractController
         $formArticleToModify->handleRequest($request);
 
         if ($formArticleToModify->isSubmitted() && $formArticleToModify->isValid()) {
+
+            $directory = "images/download/";
+            $filename = $user->getPseudo()."-".time().".jpg";
+
+            $file = $formArticleToModify['imageMain']->getData();
+            $file->move($directory, $filename);
+
+            $articleToModify->setImageMain($directory.$filename);
 
             $em->persist($articleToModify);
             $em->flush();

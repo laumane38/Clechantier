@@ -4,13 +4,17 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Heading;
+use App\Entity\Currency;
+use App\Entity\RentalType;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
 class ArticleType extends AbstractType
@@ -33,7 +37,7 @@ class ArticleType extends AbstractType
             'choice_label' => 'name',
         ])
         ->add('brand', TextType::class,[
-            'label'=>'Marque: *',
+            'label'=>'Marque : *',
             'row_attr' => [
                 'class' => 'input'
             ],
@@ -42,7 +46,7 @@ class ArticleType extends AbstractType
             ]
         ])
         ->add('model', TextType::class,[
-            'label'=>'Model: *',
+            'label'=>'Model : *',
             'row_attr' => [
                 'class' => 'input'
             ],
@@ -89,6 +93,54 @@ class ArticleType extends AbstractType
                     'placeholder'=>'Couleur'
                 ],
                 'required' => false,
+            ])
+            ->add('rentalType', EntityType::class, [
+                'class' => RentalType::class,
+                'row_attr' => [
+                    'class' => 'input'
+                ],            
+                'label' => 'Type de location :',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.id', 'ASC');
+                },
+                'choice_label' => 'name',
+            ])
+            ->add('price', TextType::class,[
+                'label'=>'Prix pour la période :',
+                'row_attr' => [
+                    'class' => 'input'
+                ],
+                'attr'=>[
+                    'placeholder'=>'Prix pour la période'
+                ],
+                'required' => false,
+            ])
+            ->add('currency', EntityType::class, [
+                'class' => Currency::class,
+                'row_attr' => [
+                    'class' => 'input'
+                ],            
+                'label' => 'Devise :',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.id', 'ASC');
+                },
+                'choice_label' => 'name',
+            ])
+            ->add('imageMain', FileType::class,[
+                'label'=>'Image principale : *',
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2048k',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                        ],
+                        'mimeTypesMessage' => 'Merci de bien vouloir télécharger une image valide',
+                    ])
+                ],
+                'data_class' => null
             ])
             ->add('description', TextareaType::class,[
                 'label'=>'Description :',
