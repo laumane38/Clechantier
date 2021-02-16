@@ -1,0 +1,72 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Planning
+{% endblock %}
+
+{% block body %}
+
+	<p>
+		<a href="{{path('home')}}">home</a>/<a href="{{path('index_membre')}}">Espace membre</a>/<a href="{{path('articleAdd')}}">Ajouter un article</a>
+	</p>
+
+	<div class="clearfix">
+		<h1>Planning</h1>
+
+		{% set day = firstDayOfMonth %}
+
+		{% set nextMonth = month + 1 %}
+		{% set prevMonth = month - 1 %}
+		{% set yearUp = year %}
+		{% set yearDown = year %}
+
+		{% if month == 1 %}
+			{% set prevMonth = 12 %}
+			{% set yearDown = year - 1 %}
+		{% endif %}
+
+		{% if month == 12 %}
+			{% set nextMonth = 1 %}
+			{% set yearUp = year + 1 %}
+		{% endif %}
+
+		{% set jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
+		{% set mois = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] %}
+
+		<h4 class="text-center">
+			<a href="{{path('articlePlanning', { id:articleId, month:prevMonth, year:yearDown })}}">
+				&#8630; mois précédent</a>
+			-
+			{{mois[month -1]}}
+			{{year}}
+			-
+			<a href="{{path('articlePlanning', { id:articleId, month:nextMonth, year:yearUp })}}">mois suivant &#8631;</a>
+		</h4>
+
+
+		<table>
+			<thead>
+				<tr>
+					{% for i in 0..6 %}
+						<th>{{ jours[i] }}</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for j in 1..nbWeek %}
+					<tr>
+						{% for i in 0..6 %}
+							<td class="available">
+								{% if( day >= 1) and ( day <= nbDaysInMonth ) %}
+									{{ day }}
+								{% endif %}
+								{% set day = day + 1 %}
+							</td>
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	</div>
+{% endblock %}

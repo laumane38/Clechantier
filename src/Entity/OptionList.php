@@ -37,6 +37,11 @@ class OptionList
     */
     private $currency;
 
+    /** 
+    * @ORM\OneToMany(targetEntity="Option", mappedBy="optionList")  
+    */
+    private $option;
+
     /**
      * @ORM\Column(type="boolean")
      */

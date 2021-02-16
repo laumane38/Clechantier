@@ -44,3 +44,20 @@ nav a:hover{
 label{
     min-width: 160px;
 }
+
+table{
+    border-collapse: separate;
+}
+
+th{
+    text-align: center;
+}
+
+td{
+    border: solid 1px rgb(143, 143, 143);
+    width: 183px;
+    height: 183px;
+    border-radius: 4px;
+    padding: 5px;
+    vertical-align: top;
+}

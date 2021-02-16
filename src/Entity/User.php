@@ -87,10 +87,10 @@ class User implements UserInterface
      */
     private $adress;
 
-        /**
+    /**
      * @ORM\OneToMany(targetEntity="OperationList", mappedBy="user")
      */
-    private $operation;
+    private $operationList;
 
     public function getId(): ?int
     {

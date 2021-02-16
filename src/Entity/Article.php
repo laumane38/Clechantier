@@ -92,6 +92,11 @@ class Article
      */
     private $enable;
 
+    /** 
+    * @ORM\OneToMany(targetEntity="Option", mappedBy="article")  
+    */
+    private $option;
+
     public function getId(): ?int
     {
         return $this->id;

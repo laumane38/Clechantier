@@ -212,19 +212,10 @@ class ArticleController extends AbstractController
             ],
         );
 
-        $repo = $em->getRepository(OptionList::class);
-        $optionsToShow = $repo->findBy([
-            'user' => $user,
-            'enable' => 1
-            ],
-        );
-
-
         return $this->render('pages/article/detail.html.twig',[
             'article' => $articleToShow,
             'formArticleDlImg' => $formArticleDlImg->createView(),
-            'images' => $imagesToShow,
-            'options' => $optionsToShow
+            'images' => $imagesToShow
             ]);
     }
 
@@ -276,4 +267,36 @@ class ArticleController extends AbstractController
 
     }
 
+    /**
+     * @Route("/planning/{id}/{year}/{month}", name="articlePlanning")
+     */
+    public function planning($id, $month = null, $year = null, Request $request, EntityManagerInterface $em): Response
+    {
+        if($year == null)
+        {
+            $year = date("Y");
+        }
+
+        if($month == null)
+        {
+            $month = date("m");
+        }
+
+        $firstDayOfMonth = date("w", mktime(0, 0, 0, $month, 1, $year));
+        if($firstDayOfMonth==0) $firstDayOfMonth=7;
+        $firstDayOfMonth = 2-$firstDayOfMonth;
+
+        $nbDaysInMonth = date('t',mktime(0, 0, 0, $month, 1, $year));
+
+        $nbWeek = ceil(($nbDaysInMonth-$firstDayOfMonth+1)/7);
+
+        return $this->render('pages/article/planning.html.twig', [
+            'articleId' => $id,
+            'year' => $year,
+            'month' => $month,
+            'firstDayOfMonth' => $firstDayOfMonth,
+            'nbDaysInMonth' => $nbDaysInMonth,
+            'nbWeek' => $nbWeek
+            ]);
+    }
 }
