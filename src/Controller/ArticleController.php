@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Entity\OptionList;
 use App\Entity\OperationList;
 use App\Form\ArticleDlImgType;
 use App\Form\OperationListAddType;
@@ -12,9 +13,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use  Symfony\Component\HttpFoundation\File\File;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use  Symfony\Component\HttpFoundation\File\File;
 
 
 /**
@@ -124,7 +125,38 @@ class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('articleShow');
+    }
 
+    /**
+     * @Route("/delete/{idArticle}/{idImage}", name="imageDelete")
+     */
+    public function deleteImage($idArticle, $idImage, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+
+        $repo = $em->getRepository(Image::class);
+        $imageToDelete = $repo->findOneBy([
+            'enable' => '1',
+            'id' => $idImage
+        ],
+        );
+
+        if (!empty($imageToDelete)) {
+
+            $imageToDelete->setEnable(0);
+            $em->persist($imageToDelete);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre image a bien été supprimé.'
+            );
+
+        }
+
+        return $this->redirectToRoute('articleDetail',[
+            'id' => $idArticle
+        ]);
     }
 
     /**
@@ -158,6 +190,7 @@ class ArticleController extends AbstractController
 
             $image->setPath($directory.$filename);
             $image->setArticle($articleToShow);
+            $image->setEnable(1);
             $em->persist($image);
             $em->flush();
 
@@ -166,13 +199,23 @@ class ArticleController extends AbstractController
                 'Votre image a bien été téléchargé.'
             );
 
+            return $this->redirectToRoute('articleDetail',[
+                'id' => $id
+            ]);
+
         }
-
-
 
         $repo = $em->getRepository(Image::class);
         $imagesToShow = $repo->findBy([
-            'article' => $articleToShow
+            'article' => $articleToShow,
+            'enable' => 1
+            ],
+        );
+
+        $repo = $em->getRepository(OptionList::class);
+        $optionsToShow = $repo->findBy([
+            'user' => $user,
+            'enable' => 1
             ],
         );
 
@@ -180,7 +223,8 @@ class ArticleController extends AbstractController
         return $this->render('pages/article/detail.html.twig',[
             'article' => $articleToShow,
             'formArticleDlImg' => $formArticleDlImg->createView(),
-            'images' => $imagesToShow
+            'images' => $imagesToShow,
+            'options' => $optionsToShow
             ]);
     }
 

@@ -18,6 +18,7 @@
 			{{ form_start(formOperationListAdd) }}
 			{{ form_row(formOperationListAdd.name)}}
 			{{ form_row(formOperationListAdd.defaultPrice)}}
+			{{ form_row(formOperationListAdd.currency)}}
 
 			<button class="btn btn-lg btn-primary" type="submit">
 				Enregistrer
@@ -34,7 +35,7 @@
 
 				<div>{{operation.name}}
 					({{operation.defaultPrice}}
-					€)
+					{{operation.currency.name}})
 					<a href="userConfig/deleteOperation/{{operation.id}}">supprimer</a>
 				</div>
 
@@ -53,6 +54,7 @@
 			{{ form_start(formOptionListAdd) }}
 			{{ form_row(formOptionListAdd.name)}}
 			{{ form_row(formOptionListAdd.defaultPrice)}}
+			{{ form_row(formOptionListAdd.currency)}}
 
 			<button class="btn btn-lg btn-primary" type="submit">
 				Enregistrer
@@ -69,7 +71,7 @@
 
 				<div>{{option.name}}
 					({{option.defaultPrice}}
-					€)
+					{{option.currency.name}})
 					<a href="userConfig/deleteOption/{{option.id}}">supprimer</a>
 				</div>
 

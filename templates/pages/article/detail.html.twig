@@ -13,10 +13,13 @@
 	<div class="clearfix">
 
 		<h1>Mon article</h1>
-		<div class="spacer50"></div>
+		<a class="btn btn-primary" href="{{path('articleModify',{id:article.id})}}">Modifier</a>
+		<div class="line"></div>
 		<h2>Généralités</h2>
-		<h3>{{article.brand}}
-			{{article.model}}</h3>
+		<div>Marque :
+			{{article.brand}}</div>
+		<div>Model :
+			{{article.model}}</div>
 		<div>Numéro de série :
 			{{article.serial}}</div>
 		<div>Année de fabrication :
@@ -29,16 +32,21 @@
 			<p class="text-justify">Description :{{ article.description }}
 			</p>
 		</div>
-		<a class="btn btn-primary" href="{{path('articleModify',{id:article.id})}}">Modifier</a>
-		<div class="spacer50"></div>
+		<div class="line"></div>
 		<h2>Images de l'article</h2>
+		<h3>Images principale</h3>
+		<img width="130" src="/{{article.imageMain}}"/>
+		<h3>Images supplémentaires</h3>
+		<div class="clearfix">
+			{% for image in images%}
+				<div class="left">
+					<a href="{{path('imageDelete',{idArticle:article.id,idImage:image.id})}}" class="delImage"><img src="../images/buttons/close.png" alt="Supprimer cette image" title="Supprimer cette image"/></a>
+					<img width="200" src="/{{image.path}}"/>
+				</div>
+			{% endfor %}
+		</div>
 
-		{% for image in images%}
-			<img width="200" src="/{{image.path}}"/>
-		{% endfor %}
-
-		<div class="spacer50"></div>
-		<h2>Télécharger des images</h2>
+		<h3>Télécharger des images</h3>
 
 		{{ form_start(formArticleDlImg) }}
 		{{form_row(formArticleDlImg.path)}}
@@ -46,6 +54,14 @@
 			Enregistrer
 		</button>
 		{{ form_end(formArticleDlImg) }}
+		<div class="line"></div>
+		<h2>Options</h2>
+		{% for option in options%}
+			<div>
+				<input type="checkbox" id="scales" name="options">
+				<label for="options">{{option.name}}</label>
+			</div>
 
+		{% endfor %}
 	</div>
 {% endblock %}

@@ -27,6 +27,11 @@ class Currency
      */
     private $rentalType;
 
+    /**
+     * @ORM\OneToMany(targetEntity="OperationList", mappedBy="currency")
+     */
+    private $operationList;
+
     public function getId(): ?int
     {
         return $this->id;

@@ -28,9 +28,14 @@ class OptionList
     private $defaultPrice;
 
     /**
-    * @ORM\ManyToOne(targetEntity="User", inversedBy="operation")
+    * @ORM\ManyToOne(targetEntity="User", inversedBy="operationList")
      */
     private $user;
+
+    /** 
+    * @ORM\ManyToOne(targetEntity="Currency", inversedBy="optionList")  
+    */
+    private $currency;
 
     /**
      * @ORM\Column(type="boolean")
@@ -77,6 +82,19 @@ class OptionList
 
         return $this;
     }
+
+    public function getCurrency(): ?Currency
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(Currency $currency): self
+    {
+        $this->currency = $currency;
+
+        return $this;
+    }
+
 
     public function getEnable(): ?bool
     {

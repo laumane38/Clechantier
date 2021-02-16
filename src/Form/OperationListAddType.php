@@ -2,11 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\Currency;
 use App\Entity\OperationList;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class OperationListAddType extends AbstractType
 {
@@ -31,6 +34,18 @@ class OperationListAddType extends AbstractType
             'attr'=>[
                 'placeholder'=>'Prix par defaut'
             ]
+        ])
+        ->add('currency', EntityType::class, [
+            'class' => Currency::class,
+            'row_attr' => [
+                'class' => 'input'
+            ],            
+            'label' => 'Devise :',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                    ->orderBy('u.id', 'ASC');
+            },
+            'choice_label' => 'name',
         ])
         ;
     }
