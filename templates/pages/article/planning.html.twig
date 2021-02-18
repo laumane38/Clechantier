@@ -59,13 +59,19 @@
 					<tr>
 						{% for i in 0..6 %}
 							{% if( day >= 1) and ( day <= nbDaysInMonth ) %}
-								{% set class = 'planningShow' %}
+
+								{% if day  == "now"|date("d") and month  == "now"|date("m") and year  == "now"|date("Y") %}
+									{% set class = 'planningToday' %}
+								{% else %}
+									{% set class = 'planningShow' %}
+								{% endif %}
+
 							{% else %}
 								{% set class = 'planningMask' %}
 							{% endif %}
 
 							<td class="{{ class }}">
-								{% if( class == 'planningShow' ) %}
+								{% if( class == 'planningShow' or class == 'planningToday' ) %}
 									{{ day }}
 								{% endif %}
 								{% set day = day + 1 %}
@@ -74,7 +80,7 @@
 					</tr>
 				{% endfor %}
 			</tbody>
-		</table>
+		</tbody>
+	</table>
 
-	</div>
-{% endblock %}
+</div>{% endblock %}

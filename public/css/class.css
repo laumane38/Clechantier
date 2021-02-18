@@ -64,7 +64,7 @@
 
 .unmask{
     position: absolute;
-    margin-left: 310px;
+    margin-left: 350px;
     margin-top: 4px;
     height: 29px;
     width: 38px;
@@ -135,6 +135,10 @@
     background-color: white;
 }
 
+.planningToday{
+    background-color: rgb(219, 219, 253);
+}
+
 .planningMask{
-    background-color: #eeeeee;
+    background-color: #e3dfff;
 }

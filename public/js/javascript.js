@@ -1,4 +1,14 @@
 
+$(document).ready(function() {
+    $('.js-datepickerStart').datepicker({
+        format: 'dd/mm/yy'
+    });
+
+    $('.js-datepickerEnd').datepicker({
+        format: 'dd/mm/yy'
+    });
+});
+
 if (document.getElementById('lunettesI')) {
     idsend = 'inscription_password';
     idreceived = document.getElementById('lunettesI');
@@ -29,12 +39,4 @@ function changeAvatar(val) {
     document.getElementById('avatar_button').style.visibility = 'visible';
 }
 
-$(document).ready(function() {
-    $('.js-datepickerStart').datepicker({
-        format: 'yyyy-mm-dd'
-    });
-
-    $('.js-datepickerEnd').datepicker({
-        format: 'yyyy-mm-dd'
-    });
-});
+ 
