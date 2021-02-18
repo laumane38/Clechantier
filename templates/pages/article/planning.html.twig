@@ -33,6 +33,8 @@
 		{% set jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
 		{% set mois = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] %}
 
+		{% set class = 'planningMask' %}
+
 		<h4 class="text-center">
 			<a href="{{path('articlePlanning', { id:articleId, month:prevMonth, year:yearDown })}}">
 				&#8630; mois précédent</a>
@@ -56,8 +58,14 @@
 				{% for j in 1..nbWeek %}
 					<tr>
 						{% for i in 0..6 %}
-							<td class="available">
-								{% if( day >= 1) and ( day <= nbDaysInMonth ) %}
+							{% if( day >= 1) and ( day <= nbDaysInMonth ) %}
+								{% set class = 'planningShow' %}
+							{% else %}
+								{% set class = 'planningMask' %}
+							{% endif %}
+
+							<td class="{{ class }}">
+								{% if( class == 'planningShow' ) %}
 									{{ day }}
 								{% endif %}
 								{% set day = day + 1 %}

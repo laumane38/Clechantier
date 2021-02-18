@@ -29,6 +29,12 @@ function changeAvatar(val) {
     document.getElementById('avatar_button').style.visibility = 'visible';
 }
 
+$(document).ready(function() {
+    $('.js-datepickerStart').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 
-
-
+    $('.js-datepickerEnd').datepicker({
+        format: 'yyyy-mm-dd'
+    });
+});

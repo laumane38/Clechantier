@@ -131,6 +131,10 @@
     margin-left: 170px;
 }
 
-.available{
+.planningShow{
     background-color: white;
+}
+
+.planningMask{
+    background-color: #eeeeee;
 }

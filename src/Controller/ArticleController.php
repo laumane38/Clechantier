@@ -36,7 +36,7 @@ class ArticleController extends AbstractController
         $user = $this->getUser();
         $article = new Article();
 
-        $formArticleAdd = $this->createForm(ArticleType::class,$article);
+        $formArticleAdd = $this->createForm(ArticleType::class, $article);
 
         $formArticleAdd->handleRequest($request);
 
@@ -235,6 +235,15 @@ class ArticleController extends AbstractController
         ],
         );
 
+        if(empty($articleToModify)){
+            $this->addFlash(
+                'alert',
+                'Vous ne pouvez pas modifier cet article.'
+            );
+
+            return $this->redirectToRoute('articleShow');
+        }
+
         $formArticleToModify = $this->createForm(ArticleType::class,$articleToModify);
 
         $formArticleToModify->handleRequest($request);
@@ -297,6 +306,7 @@ class ArticleController extends AbstractController
             'firstDayOfMonth' => $firstDayOfMonth,
             'nbDaysInMonth' => $nbDaysInMonth,
             'nbWeek' => $nbWeek
-            ]);
+            ]
+        );
     }
 }

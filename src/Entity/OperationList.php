@@ -38,6 +38,11 @@ class OperationList
     private $currency;
 
     /**
+     * @ORM\OneToMany(targetEntity="Operation", mappedBy="operationList")
+     */
+    private $operation;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $enable;

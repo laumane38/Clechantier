@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Nouvelle opération
+{% endblock %}
+
+{% block body %}
+
+
+	<h1>Nouvelle opération</h1>
+
+	{{ form_start(formNewOperation) }}
+	{{ form_row(formNewOperation.operationList)}}
+	{{ form_row(formNewOperation.dateStart)}}
+	{{ form_row(formNewOperation.dateEnd)}}
+
+	{{ form_end(formNewOperation) }}
+
+
+{% endblock %}
