@@ -154,7 +154,13 @@ class ArticleType extends AbstractType
                 ],
                 'required' => false,
             ])
-
+            ->add('OptionList', EntityType::class, [
+                'class' => OptionList::class,     
+                'label' => 'Options :',
+                'choice_label' => 'name',
+                'expanded' => true,
+                'multiple' => true,
+            ])
         ;
     }
 

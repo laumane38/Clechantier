@@ -25,6 +25,19 @@
 	{{ form_row(formArticleAdd.currency)}}
 	<br/>
 	{{ form_row(formArticleAdd.description)}}
+
+	<div>Options :</div>
+	{% for checkbox in formArticleAdd.OptionList %}
+
+		<div>
+			<input type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" value="{{ checkbox.vars.name }}">
+			<label for="{{ checkbox.vars.id }}">{{ checkbox.vars.label }}</label>
+		</div>
+
+		{% do formArticleAdd.OptionList.setRendered %}
+
+	{% endfor %}
+
 	<br/>
 	{{ form_row(formArticleAdd.imageMain)}}
 	<br/>
@@ -33,6 +46,5 @@
 		Enregistrer
 	</button>
 	{{ form_end(formArticleAdd) }}
-
 
 {% endblock %}

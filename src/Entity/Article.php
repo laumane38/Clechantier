@@ -100,11 +100,16 @@ class Article
     */
     private $operation;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=OptionList::class, inversedBy="articles")
+     */
+    private $optionList;
+
     public function __construct()
     {
-        $this->options = new ArrayCollection();
         $this->image = new ArrayCollection();
         $this->operation = new ArrayCollection();
+        $this->optionList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -336,6 +341,30 @@ class Article
                 $operation->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OptionList[]
+     */
+    public function getOptionList(): Collection
+    {
+        return $this->optionList;
+    }
+
+    public function addOptionList(OptionList $optionList): self
+    {
+        if (!$this->optionList->contains($optionList)) {
+            $this->optionList[] = $optionList;
+        }
+
+        return $this;
+    }
+
+    public function removeOptionList(OptionList $optionList): self
+    {
+        $this->optionList->removeElement($optionList);
 
         return $this;
     }
