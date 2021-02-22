@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -91,6 +93,13 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="OperationList", mappedBy="user")
      */
     private $operationList;
+
+    public function __construct()
+    {
+        $this->article = new ArrayCollection();
+        $this->adress = new ArrayCollection();
+        $this->operationList = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -312,6 +321,96 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticle(): Collection
+    {
+        return $this->article;
+    }
+
+    public function addArticle(Article $article): self
+    {
+        if (!$this->article->contains($article)) {
+            $this->article[] = $article;
+            $article->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->article->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getUser() === $this) {
+                $article->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adress[]
+     */
+    public function getAdress(): Collection
+    {
+        return $this->adress;
+    }
+
+    public function addAdress(Adress $adress): self
+    {
+        if (!$this->adress->contains($adress)) {
+            $this->adress[] = $adress;
+            $adress->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdress(Adress $adress): self
+    {
+        if ($this->adress->removeElement($adress)) {
+            // set the owning side to null (unless already changed)
+            if ($adress->getUser() === $this) {
+                $adress->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OperationList[]
+     */
+    public function getOperationList(): Collection
+    {
+        return $this->operationList;
+    }
+
+    public function addOperationList(OperationList $operationList): self
+    {
+        if (!$this->operationList->contains($operationList)) {
+            $this->operationList[] = $operationList;
+            $operationList->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperationList(OperationList $operationList): self
+    {
+        if ($this->operationList->removeElement($operationList)) {
+            // set the owning side to null (unless already changed)
+            if ($operationList->getUser() === $this) {
+                $operationList->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

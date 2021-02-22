@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -93,14 +96,16 @@ class Article
     private $enable;
 
     /** 
-    * @ORM\OneToMany(targetEntity="Option", mappedBy="article")  
-    */
-    private $option;
-
-    /** 
     * @ORM\OneToMany(targetEntity="Operation", mappedBy="article")  
     */
     private $operation;
+
+    public function __construct()
+    {
+        $this->options = new ArrayCollection();
+        $this->image = new ArrayCollection();
+        $this->operation = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -271,6 +276,66 @@ class Article
     public function setEnable(?bool $enable): self
     {
         $this->enable = $enable;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImage(): Collection
+    {
+        return $this->image;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->image->contains($image)) {
+            $this->image[] = $image;
+            $image->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->image->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getArticle() === $this) {
+                $image->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Operation[]
+     */
+    public function getOperation(): Collection
+    {
+        return $this->operation;
+    }
+
+    public function addOperation(Operation $operation): self
+    {
+        if (!$this->operation->contains($operation)) {
+            $this->operation[] = $operation;
+            $operation->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperation(Operation $operation): self
+    {
+        if ($this->operation->removeElement($operation)) {
+            // set the owning side to null (unless already changed)
+            if ($operation->getArticle() === $this) {
+                $operation->setArticle(null);
+            }
+        }
 
         return $this;
     }

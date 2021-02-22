@@ -299,13 +299,19 @@ class ArticleController extends AbstractController
 
         $nbWeek = ceil(($nbDaysInMonth-$firstDayOfMonth+1)/7);
 
-        return $this->render('pages/article/planning.html.twig', [
-            'articleId' => $id,
-            'year' => $year,
-            'month' => $month,
+        $dataDate = [
+            'year' => $year, 
+            'month' => $month, 
+            'prevMonth' => $month-1, 
+            'nextMonth' => $month+1,
             'firstDayOfMonth' => $firstDayOfMonth,
             'nbDaysInMonth' => $nbDaysInMonth,
             'nbWeek' => $nbWeek
+        ];
+
+        return $this->render('pages/article/planning.html.twig', [
+            'articleId' => $id,
+            'dataDate' => $dataDate
             ]
         );
     }

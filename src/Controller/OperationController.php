@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Operation;
 use App\Form\OperationType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,9 +23,9 @@ class OperationController extends AbstractController
 {
 
     /**
-     * @Route("/newOperation/{id}", name="newOperation")
+     * @Route("/addOperation/{id}", name="addOperation")
      */
-    public function newOperation($id, Request $request, EntityManagerInterface $em): Response
+    public function naddOperation($id, Request $request, EntityManagerInterface $em): Response
     {
 
         $user = $this->getUser();
@@ -33,7 +34,7 @@ class OperationController extends AbstractController
 
         $formNewOperation = $this->createForm(OperationType::class, $operation);
 
-        return $this->render('pages/operation/newOperation.html.twig', [
+        return $this->render('pages/operation/addOperation.html.twig', [
             'articleId' => $id,
             'user' => $user,
             'formNewOperation' => $formNewOperation->createView()

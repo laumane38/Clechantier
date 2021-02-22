@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Operation;
 use App\Entity\OperationList;
+use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,10 +12,24 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
+
 class OperationType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+
+    /**
+     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface    $tokenStorage
+     */
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
+        $this->tokenStorage = $tokenStorage;
+        $this->user = $this->tokenStorage->getToken()->getUser();
+    }
+
+    public function buildForm(FormBuilderInterface $builder,array $options)
+    {
+
         $builder
             ->add('dateStart', DateType::class, [
                 'label' => 'Date de début : *',
@@ -46,10 +61,14 @@ class OperationType extends AbstractType
                 'label' => 'Choix des opérations : *',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
-                        ->orderBy('u.id', 'ASC');
+                        ->orderBy('u.id', 'ASC')
+                        ->andWhere('u.user = :user')
+                        ->setParameter('user', $this->user)
+                        ;
                 },
                 'choice_label' => 'name',
             ])
+
         ;
     }
 

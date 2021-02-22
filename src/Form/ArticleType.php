@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Heading;
 use App\Entity\Currency;
 use App\Entity\RentalType;
+use App\Entity\OptionList;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -153,6 +154,7 @@ class ArticleType extends AbstractType
                 ],
                 'required' => false,
             ])
+
         ;
     }
 

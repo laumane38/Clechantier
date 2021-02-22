@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OperationListRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,11 @@ class OperationList
      * @ORM\Column(type="boolean")
      */
     private $enable;
+
+    public function __construct()
+    {
+        $this->operation = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -108,6 +115,36 @@ class OperationList
     public function setEnable(?bool $enable): self
     {
         $this->enable = $enable;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Operation[]
+     */
+    public function getOperation(): Collection
+    {
+        return $this->operation;
+    }
+
+    public function addOperation(Operation $operation): self
+    {
+        if (!$this->operation->contains($operation)) {
+            $this->operation[] = $operation;
+            $operation->setOperationList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperation(Operation $operation): self
+    {
+        if ($this->operation->removeElement($operation)) {
+            // set the owning side to null (unless already changed)
+            if ($operation->getOperationList() === $this) {
+                $operation->setOperationList(null);
+            }
+        }
 
         return $this;
     }
