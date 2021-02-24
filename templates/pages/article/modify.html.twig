@@ -27,23 +27,35 @@
 	{{ form_row(formArticleToModify.description)}}
 	<br/>
 
-	<div>Options :</div>
-	{% for checkbox in formArticleToModify.OptionList %}
+	<div>{{ form_label(formArticleToModify.OptionList)}}
+	</div>
 
-		{%if checkbox.vars.checked == true %}
-			{% set checked = 'checked' %}
-		{% else %}
-			{% set checked = '' %}
-		{% endif %}
+	{% if formArticleToModify.OptionList is empty %}
 
-		<div>
-			<input type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" value="{{ checkbox.vars.name }}" {{ checked }}>
-			<label for="{{ checkbox.vars.id }}">{{ checkbox.vars.label }}</label>
-		</div>
+		<p>Vous n'avez pas encore créé d'option. Cliquez
+			<a href="{{path('userConfig')}}">ici</a>
+			pour créer votre première option.</p>
 
-		{% do formArticleToModify.OptionList.setRendered %}
+	{% else %}
 
-	{% endfor %}
+		{% for checkbox in formArticleToModify.OptionList %}
+
+			{%if checkbox.vars.checked == true %}
+				{% set checked = 'checked' %}
+			{% else %}
+				{% set checked = '' %}
+			{% endif %}
+
+			<div>
+				<input type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" value="{{ checkbox.vars.name }}" {{ checked }}>
+				<label for="{{ checkbox.vars.id }}">{{ checkbox.vars.label }}</label>
+			</div>
+
+		{% endfor %}
+
+	{% endif %}
+
+	{% do formArticleToModify.OptionList.setRendered %}
 
 	<br/>
 	{{ form_row(formArticleToModify.imageMain)}}

@@ -26,17 +26,29 @@
 	<br/>
 	{{ form_row(formArticleAdd.description)}}
 
-	<div>Options :</div>
-	{% for checkbox in formArticleAdd.OptionList %}
+	<div>{{ form_label(formArticleAdd.OptionList)}}
+	</div>
 
-		<div>
-			<input type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" value="{{ checkbox.vars.name }}">
-			<label for="{{ checkbox.vars.id }}">{{ checkbox.vars.label }}</label>
-		</div>
+	{% if formArticleAdd.OptionList is empty %}
 
-		{% do formArticleAdd.OptionList.setRendered %}
+		<p>Vous n'avez pas encore créé d'option. Cliquez
+			<a href="{{path('userConfig')}}">ici</a>
+			pour créer votre première option.</p>
 
-	{% endfor %}
+
+	{% else %}
+
+		{% for checkbox in formArticleAdd.OptionList %}
+
+			<div>
+				<input type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" value="{{ checkbox.vars.name }}">
+				<label for="{{ checkbox.vars.id }}">{{ checkbox.vars.label }}</label>
+			</div>
+
+		{% endfor %}
+	{% endif %}
+
+	{% do formArticleAdd.OptionList.setRendered %}
 
 	<br/>
 	{{ form_row(formArticleAdd.imageMain)}}

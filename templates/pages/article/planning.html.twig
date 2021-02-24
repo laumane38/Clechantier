@@ -35,15 +35,17 @@
 
 		{% set class = 'planningMask' %}
 
-		<h4 class="text-center">
+		<div class="text-center">
 			<a href="{{path('articlePlanning', { id:articleId, month:prevMonth, year:yearDown })}}">
 				&#8630; mois précédent</a>
 			-
-			{{mois[dataDate.month -1]}}
-			{{dataDate.year}}
+			<span class="h4">
+				{{mois[dataDate.month -1]}}
+				{{dataDate.year}}
+			</span>
 			-
 			<a href="{{path('articlePlanning', { id:articleId, month:nextMonth, year:yearUp })}}">mois suivant &#8631;</a>
-		</h4>
+		</div>
 
 
 		<table>

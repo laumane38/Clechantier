@@ -17,9 +17,20 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 
 class ArticleType extends AbstractType
 {
+
+    /**
+     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface    $tokenStorage
+     */
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+        $this->user = $this->tokenStorage->getToken()->getUser();
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -160,6 +171,13 @@ class ArticleType extends AbstractType
                 'choice_label' => 'name',
                 'expanded' => true,
                 'multiple' => true,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.id', 'ASC')
+                        ->andWhere('u.user = :user')
+                        ->setParameter('user', $this->user)
+                        ;
+                },
             ])
         ;
     }
