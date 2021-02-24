@@ -234,6 +234,8 @@ class ArticleController extends AbstractController
             'id' => $id
         ],
         );
+ 
+        $urlImg = $articleToModify->getImageMain();
 
         if(empty($articleToModify)){
             $this->addFlash(
@@ -245,18 +247,25 @@ class ArticleController extends AbstractController
         }
 
         $formArticleToModify = $this->createForm(ArticleType::class,$articleToModify);
-
+        
         $formArticleToModify->handleRequest($request);
-
+        
         if ($formArticleToModify->isSubmitted() && $formArticleToModify->isValid()) {
 
-            $directory = "images/download/";
-            $filename = $user->getPseudo()."-".time().".jpg";
+            if($formArticleToModify->getData()->getImageMain() !== null){
 
-            $file = $formArticleToModify['imageMain']->getData();
-            $file->move($directory, $filename);
+                $directory = 'images/download/';
+                $filename = $user->getPseudo().'-'.time().'.jpg';
 
-            $articleToModify->setImageMain($directory.$filename);
+                $file = $formArticleToModify['imageMain']->getData();
+                $file->move($directory, $filename);
+
+                $articleToModify->setImageMain($directory.$filename);
+                
+            }
+            else{
+                $articleToModify->setImageMain($urlImg);
+            }
 
             $em->persist($articleToModify);
             $em->flush();

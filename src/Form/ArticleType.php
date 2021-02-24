@@ -142,6 +142,7 @@ class ArticleType extends AbstractType
             ])
             ->add('imageMain', FileType::class,[
                 'label'=>'Image principale : *',
+                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '2048k',

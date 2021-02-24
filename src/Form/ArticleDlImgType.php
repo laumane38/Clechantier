@@ -16,6 +16,7 @@ class ArticleDlImgType extends AbstractType
         $builder
         ->add('path', FileType::class,[
             'label'=>'Votre fichier :',
+            'required' => false,
             'constraints' => [
                 new File([
                     'maxSize' => '2048k',
