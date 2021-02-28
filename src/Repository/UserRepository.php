@@ -40,8 +40,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function findUser($param){
 
-        $param['firstName'] = null;
-
         $qb = $this->createQueryBuilder('u')
         ->andWhere('u.pseudo LIKE :pseudo')->setParameter('pseudo', '%'.$param['pseudo'].'%')
         ->andWhere('u.firstName LIKE :firstName')->setParameter('firstName', $param['firstName'].'%')
