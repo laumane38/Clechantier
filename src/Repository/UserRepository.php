@@ -44,11 +44,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         if(!$param['pseudo']){
         $qb = $qb
-        ->andWhere('u.pseudo LIKE :pseudo')->setParameter('pseudo', '%'.$param['pseudo'].'%')
+        ->andWhere('u.pseudo LIKE :pseudo')->setParameter('pseudo', '%'.$param['pseudo'].'%');
         }
-        
-        ->andWhere('u.firstName LIKE :firstName')->setParameter('firstName', $param['firstName'].'%')
 
+        if (!$param['firstName']) {
+        $qb = $qb
+        ->andWhere('u.firstName LIKE :firstName')->setParameter('firstName', $param['firstName'].'%');
+        }
+
+        $qb = $qb
         ->orderBy('u.id', 'ASC');
 
         return $qb
