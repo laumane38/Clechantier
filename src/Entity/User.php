@@ -94,11 +94,23 @@ class User implements UserInterface
      */
     private $operationList;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Operation::class, mappedBy="user")
+     */
+    private $operations;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Collaborater::class, mappedBy="host")
+     */
+    private $collaboraters;
+
     public function __construct()
     {
         $this->article = new ArrayCollection();
         $this->adress = new ArrayCollection();
         $this->operationList = new ArrayCollection();
+        $this->operations = new ArrayCollection();
+        $this->collaboraters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -407,6 +419,63 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($operationList->getUser() === $this) {
                 $operationList->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Operation[]
+     */
+    public function getOperations(): Collection
+    {
+        return $this->operations;
+    }
+
+    public function addOperation(Operation $operation): self
+    {
+        if (!$this->operations->contains($operation)) {
+            $this->operations[] = $operation;
+            $operation->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperation(Operation $operation): self
+    {
+        if ($this->operations->removeElement($operation)) {
+            $operation->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Collaborater[]
+     */
+    public function getCollaboraters(): Collection
+    {
+        return $this->collaboraters;
+    }
+
+    public function addCollaborater(Collaborater $collaborater): self
+    {
+        if (!$this->collaboraters->contains($collaborater)) {
+            $this->collaboraters[] = $collaborater;
+            $collaborater->setHost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollaborater(Collaborater $collaborater): self
+    {
+        if ($this->collaboraters->removeElement($collaborater)) {
+            // set the owning side to null (unless already changed)
+            if ($collaborater->getHost() === $this) {
+                $collaborater->setHost(null);
             }
         }
 

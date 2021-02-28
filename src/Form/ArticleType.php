@@ -176,6 +176,7 @@ class ArticleType extends AbstractType
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.id', 'ASC')
                         ->andWhere('u.user = :user')
+                        ->andWhere('u.enable = 1')
                         ->setParameter('user', $this->user)
                         ;
                 },

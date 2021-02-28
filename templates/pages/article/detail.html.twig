@@ -20,18 +20,45 @@
 			{{article.brand}}</div>
 		<div>Model :
 			{{article.model}}</div>
-		<div>Numéro de série :
-			{{article.serial}}</div>
-		<div>Année de fabrication :
-			{{article.year}}</div>
-		<div>Localisation :
-			{{article.location}}</div>
-		<div>Couleur :
-			{{article.color}}</div>
-		<div>
-			<p class="text-justify">Description :{{ article.description }}
-			</p>
-		</div>
+		<br/>
+
+		{% if article.serial is not empty %}
+			<div>Numéro de série :
+				{{article.serial}}</div>
+		{% endif %}
+
+		{% if article.year is not empty %}
+			<div>Année de fabrication :
+				{{article.year}}</div>
+		{% endif %}
+
+		{% if article.location is not empty %}
+			<div>Localisation :
+				{{article.location}}</div>
+		{% endif %}
+
+		{% if article.color is not empty %}
+			<div>Couleur :
+				{{article.color}}</div>
+		{% endif %}
+		<br/>
+
+		{% if article.price is not empty %}
+			<div>Prix :
+				{{article.price}}
+				{{article.currency.name}}</div>
+		{% endif %}
+		<div>Type de location :
+			{{article.rentalType.name}}</div>
+		<br/>
+
+		{% if article.description is not empty %}
+			<div>
+				<p class="text-justify">Description :{{ article.description }}
+				</p>
+			</div>
+		{% endif %}
+
 		<div class="line"></div>
 		<h2>Images de l'article</h2>
 		<h3>Images principale</h3>
@@ -56,6 +83,12 @@
 		{{ form_end(formArticleDlImg) }}
 		<div class="line"></div>
 		<h2>Options</h2>
+
+		{% for option in article.OptionList %}
+			<ul>
+				<li>{{ option.name }}</li>
+			</ul>
+		{% endfor %}
 
 	</div>
 {% endblock %}

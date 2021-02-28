@@ -2,12 +2,14 @@
 
 namespace App\Repository;
 
+use Doctrine\ORM\EntityRepository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -36,6 +38,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function findUser($param){
+
+        $param['firstName'] = null;
+
+        $qb = $this->createQueryBuilder('u')
+        ->andWhere('u.pseudo LIKE :pseudo')->setParameter('pseudo', '%'.$param['pseudo'].'%')
+        ->andWhere('u.firstName LIKE :firstName')->setParameter('firstName', $param['firstName'].'%')
+        ->orderBy('u.id', 'ASC');
+
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return User[] Returns an array of User objects

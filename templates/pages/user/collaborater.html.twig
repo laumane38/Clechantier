@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Gérer mes collaborateurs
+{% endblock %}
+
+{% block body %}
+	<p>
+		<a href="{{path('home')}}">home</a>/<a href="{{path('index_membre')}}">Espace membre</a>
+	</p>
+	<h1>Gérer mes collaborateurs</h1>
+
+	<h4>Formulaire de recherche</h4>
+	{{ form_start(searchResult) }}
+	{{ form_row(searchResult.pseudo) }}
+	{{ form_row(searchResult.firstName) }}
+	{{ form_row(searchResult.lastName) }}
+	{{ form_row(searchResult.email) }}
+	{{ form_row(searchResult.companie) }}
+	<button class="btn btn-primary" type="submit">Rechercher</button>
+	{{ form_end(searchResult) }}
+
+	<h4>Résultat de ma recherche</h4>
+	{% for user in usersResults %}
+		{{user.pseudo}}
+	{% endfor %}
+{% endblock %}

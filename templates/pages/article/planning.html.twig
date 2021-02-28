@@ -12,6 +12,12 @@
 
 	<div class="clearfix">
 		<h1>Planning</h1>
+		<h4>{{article.brand}}
+			{{article.model}}
+			{% if(article.serial is not empty) %}
+				N°{{article.serial}}
+			{% endif %}
+		</h4>
 
 		{% set day = dataDate.firstDayOfMonth %}
 
@@ -36,7 +42,7 @@
 		{% set class = 'planningMask' %}
 
 		<div class="text-center">
-			<a href="{{path('articlePlanning', { id:articleId, month:prevMonth, year:yearDown })}}">
+			<a href="{{path('articlePlanning', { id:article.id, month:prevMonth, year:yearDown })}}">
 				&#8630; mois précédent</a>
 			-
 			<span class="h4">
@@ -44,7 +50,7 @@
 				{{dataDate.year}}
 			</span>
 			-
-			<a href="{{path('articlePlanning', { id:articleId, month:nextMonth, year:yearUp })}}">mois suivant &#8631;</a>
+			<a href="{{path('articlePlanning', { id:article.id, month:nextMonth, year:yearUp })}}">mois suivant &#8631;</a>
 		</div>
 		<table>
 			<thead>
@@ -75,7 +81,7 @@
 							{% endif %}
 
 							<td class="{{ class }}">
-								{% if( class == 'planningShow' or class == 'planningToday' or class == 'planningWeekend' ) %}
+								{% if( class == 'planningShow' or class == 'planningToday' or class == 'planningWeekend' ) and day <= dataDate.nbDaysInMonth %}
 									{{ day }}
 								{% endif %}
 								{% set day = day + 1 %}

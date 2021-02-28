@@ -2,14 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+
+use App\Repository\UserRepository;
+
 use App\Entity\Adress;
 use App\Form\AdressType;
 use App\Form\AvatarType;
 use App\Form\ProfilType;
-use App\Entity\OperationList;
 use App\Entity\OptionList;
-use App\Form\OperationListAddType;
+use App\Entity\OperationList;
 use App\Form\OptionListAddType;
+use App\Form\OperationListAddType;
+use App\Form\SearchCollaboraterType;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,8 +29,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * Require ROLE_USER for *every* controller method in this class.
  *
  * @IsGranted("ROLE_USER")
+ * 
+ * @@Route("/user")
  */
-class MembreController extends AbstractController
+class UserController extends AbstractController
 {
     public function __construct(UserPasswordEncoderInterface $userPasswordEncoder)
     {
@@ -32,11 +40,11 @@ class MembreController extends AbstractController
     }
 
     /**
-     * @Route("/membre", name="index_membre")
+     * @Route("/index", name="index_membre")
      */
     public function index(): Response
     {
-        return $this->render('pages/membre.html.twig');
+        return $this->render('pages/user/index.html.twig');
     }
 
     /**
@@ -44,7 +52,7 @@ class MembreController extends AbstractController
      */
     public function profilModify(): Response
     {
-        return $this->render('pages/profilModify.html.twig');
+        return $this->render('pages/user/profilModify.html.twig');
     }
 
     /**
@@ -127,7 +135,7 @@ class MembreController extends AbstractController
             'id' => 'DESC'
         ]);
 
-        return $this->render('pages/adress.html.twig',[
+        return $this->render('pages/user/adress.html.twig',[
             'formAdress' => $formAdress->createView(),
             'adress' => $adress
         ]);
@@ -160,7 +168,7 @@ class MembreController extends AbstractController
 
         }
 
-        return $this->render('pages/profilEdit.html.twig',[
+        return $this->render('pages/user/profilEdit.html.twig',[
             'formEditProfil' => $formEditProfil->createView(),
             'editProfil' => $formEditProfil,
             'avatar' => $user->getAvatar()
@@ -196,7 +204,7 @@ class MembreController extends AbstractController
 
         }
 
-        return $this->render('pages/avatarEdit.html.twig',[
+        return $this->render('pages/user/avatarEdit.html.twig',[
             'formAvatar' => $formAvatar->createView(),
             'editProfil' => $formAvatar
         ]);
@@ -267,7 +275,7 @@ class MembreController extends AbstractController
         ],
         );
 
-        return $this->render('pages/userConfig.html.twig',[
+        return $this->render('pages/user/config.html.twig',[
             'formOperationListAdd' => $formOperationListAdd->createView(),
             'operations' => $operationsToShow,
             'formOptionListAdd' => $formOptionListAdd->createView(),
@@ -319,7 +327,7 @@ class MembreController extends AbstractController
 
     }
 
-        /**
+    /**
      * @Route("/userConfig/deleteOption/{id}", name="userConfigDeleteOption")
      */
     public function deleteOption(request $request, $id, EntityManagerInterface $em): Response
@@ -358,6 +366,34 @@ class MembreController extends AbstractController
         }
 
         return $this->redirectToRoute('userConfig');
+
+    }
+
+    /**
+     * @Route("/userCollaborater", name="userCollaborater")
+     */
+    public function collaborater(EntityManagerInterface $em, request $request, UserRepository $repo): Response
+    {
+        $searchCollaborater = new User;
+        $usersToFind = new User;
+
+        $formSearchCollaborater = $this->createForm(SearchCollaboraterType::class,$searchCollaborater);
+
+        $formSearchCollaborater->handleRequest($request);
+
+        if ($formSearchCollaborater->isSubmitted() && $formSearchCollaborater->isValid()){
+
+            $param['pseudo'] = $formSearchCollaborater->getData()->getPseudo();
+            $param['firstName'] = $formSearchCollaborater->getData()->getFirstName();
+
+            $usersToFind = $repo->findUser($param);
+
+        }
+
+        return $this->render('pages/user/collaborater.html.twig',[
+            'searchResult' => $formSearchCollaborater->createView(),
+            'usersResults' => $usersToFind
+        ]);
 
     }
 

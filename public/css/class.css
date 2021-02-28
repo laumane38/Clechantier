@@ -136,7 +136,9 @@
 }
 
 .planningToday{
-    background-color: rgb(219, 219, 253);
+    background-color: rgb(252, 226, 255);
+    color: rgb(150, 37, 144);
+
 }
 
 .planningMask{

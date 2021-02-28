@@ -68,7 +68,14 @@ class OperationType extends AbstractType
                 },
                 'choice_label' => 'name',
             ])
+            ->add('User', EntityType::class, [
+                'class' => User::class,     
+                'label' => 'Associer colaborateur :',
+                'choice_label' => 'pseudo',
+                'expanded' => true,
+                'multiple' => true,
 
+            ])
         ;
     }
 

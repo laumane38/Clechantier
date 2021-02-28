@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use  Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\File;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -25,7 +25,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  * 
  * @@Route("/article")
  */
-class ArticleController extends AbstractController
+class ArticleUserController extends AbstractController
 {
     /**
      * @Route("/add", name="articleAdd")
@@ -71,7 +71,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="articleShow")
+     * @Route("/showMy", name="articleShowMy")
      */
     public function show(EntityManagerInterface $em): Response
     {
@@ -89,7 +89,7 @@ class ArticleController extends AbstractController
         $showByPage
         );
         
-        return $this->render('pages/article/show.html.twig',[
+        return $this->render('pages/article/showMy.html.twig',[
             'articles' => $articleToShow
         ]);
 
@@ -275,7 +275,9 @@ class ArticleController extends AbstractController
                 'Votre article a été mofifié.'
             );
 
-            return $this->redirectToRoute('articleShow');
+            return $this->redirectToRoute('articleDetail',[
+                'id' => $id
+            ]);
      
         }
 
@@ -285,43 +287,4 @@ class ArticleController extends AbstractController
 
     }
 
-    /**
-     * @Route("/planning/{id}/{year}/{month}", name="articlePlanning")
-     */
-    public function planning($id, $month = null, $year = null, Request $request, EntityManagerInterface $em): Response
-    {
-        if($year == null)
-        {
-            $year = date("Y");
-        }
-
-        if($month == null)
-        {
-            $month = date("m");
-        }
-
-        $firstDayOfMonth = date("w", mktime(0, 0, 0, $month, 1, $year));
-        if($firstDayOfMonth==0) $firstDayOfMonth=7;
-        $firstDayOfMonth = 2-$firstDayOfMonth;
-
-        $nbDaysInMonth = date('t',mktime(0, 0, 0, $month, 1, $year));
-
-        $nbWeek = ceil(($nbDaysInMonth-$firstDayOfMonth+1)/7);
-
-        $dataDate = [
-            'year' => $year, 
-            'month' => $month, 
-            'prevMonth' => $month-1, 
-            'nextMonth' => $month+1,
-            'firstDayOfMonth' => $firstDayOfMonth,
-            'nbDaysInMonth' => $nbDaysInMonth,
-            'nbWeek' => $nbWeek
-        ];
-
-        return $this->render('pages/article/planning.html.twig', [
-            'articleId' => $id,
-            'dataDate' => $dataDate
-            ]
-        );
-    }
 }
