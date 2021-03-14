@@ -74,7 +74,12 @@ class OperationType extends AbstractType
                 'choice_label' => 'pseudo',
                 'expanded' => true,
                 'multiple' => true,
-
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->andWhere('u.collaboratersHost= :user')
+                        ->setParameter('user', $this->user)
+                        ;
+                },
             ])
         ;
     }

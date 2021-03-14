@@ -47,6 +47,10 @@
     float: right;
 }
 
+.padding1{
+    padding: 1px;
+}
+
 .padding10{
     padding: 10px;
 }

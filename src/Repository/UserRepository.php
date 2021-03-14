@@ -42,17 +42,32 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $qb = $this->createQueryBuilder('u');
 
-        if(!$param['pseudo']){
-        $qb = $qb
+        if($param['pseudo'] !== null){
+        $qb
         ->andWhere('u.pseudo LIKE :pseudo')->setParameter('pseudo', '%'.$param['pseudo'].'%');
-        }
+            }
+        
+        if ($param['firstName'] !== null) {
+            $qb
+            ->andWhere('u.firstName LIKE :firstName')->setParameter('firstName', $param['firstName'].'%');
+            }
 
-        if (!$param['firstName']) {
-        $qb = $qb
-        ->andWhere('u.firstName LIKE :firstName')->setParameter('firstName', $param['firstName'].'%');
-        }
+        if ($param['lastName'] !== null) {
+            $qb
+            ->andWhere('u.lastName LIKE :lastName')->setParameter('lastName', $param['lastName'].'%');
+            }
 
-        $qb = $qb
+        if ($param['email'] !== null) {
+            $qb
+            ->andWhere('u.email LIKE :email')->setParameter('email', $param['email'].'%');
+            }
+        
+        if ($param['companie'] !== null) {
+            $qb
+            ->andWhere('u.companie LIKE :companie')->setParameter('companie', $param['companie'].'%');
+            }
+        $qb->andWhere('u.id != :id')->setParameter('id',$param['idSeeker']);
+        $qb
         ->orderBy('u.id', 'ASC');
 
         return $qb

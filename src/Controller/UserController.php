@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 
 use App\Entity\Adress;
+use App\Entity\Collaborater;
 use App\Form\AdressType;
 use App\Form\AvatarType;
 use App\Form\ProfilType;
@@ -376,6 +377,10 @@ class UserController extends AbstractController
     {
         $searchCollaborater = new User;
         $usersToFind = new User;
+        $usersRegistered = new User;
+        $collaboraterList = new User;
+
+        $user = $this->getUser();
 
         $formSearchCollaborater = $this->createForm(SearchCollaboraterType::class,$searchCollaborater);
 
@@ -385,16 +390,127 @@ class UserController extends AbstractController
 
             $param['pseudo'] = $formSearchCollaborater->getData()->getPseudo();
             $param['firstName'] = $formSearchCollaborater->getData()->getFirstName();
+            $param['lastName'] = $formSearchCollaborater->getData()->getLastName();
+            $param['email'] = $formSearchCollaborater->getData()->getEmail();
+            $param['companie'] = $formSearchCollaborater->getData()->getCompanie();
+            $param['idSeeker'] = $user->getId();
+
+            if(empty($param['pseudo']) and empty($param['firstName']) and empty($param['lastName']) and empty($param['email']) and empty($param['companie'])){
+
+                $this->addFlash(
+                    'alert',
+                    'Merci de renseigner au mois un champ du formulaire.'
+                );
+
+                return $this->redirectToRoute('userCollaborater');
+            }
 
             $usersToFind = $repo->findUser($param);
 
+            $repo = $em->getRepository(Collaborater::class);
+            $usersRegistered = $repo->findBy([
+                'host' => $user,
+                'target' => $usersToFind
+            ],
+            );
+
         }
+
+
+        $repo = $em->getRepository(Collaborater::class);
+        $collaboraterList = $repo->findBy([
+            'host' => $user
+        ],
+        );
 
         return $this->render('pages/user/collaborater.html.twig',[
             'searchResult' => $formSearchCollaborater->createView(),
-            'usersResults' => $usersToFind
+            'usersResults' => $usersToFind,
+            'usersRegistered' => $usersRegistered,
+            'collaboraterList' => $collaboraterList
         ]);
 
     }
 
+    /**
+     * @Route("/userCollaboraterAdd/{id}", name="userCollaboraterAdd")
+     */
+    public function collaboraterAdd($id, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        $collaborater = new Collaborater;
+
+        $repo = $em->getRepository(User::class);
+        $userToAdd = $repo->findOneBy([
+            'id' => $id
+        ],
+        );
+
+        $repo = $em->getRepository(Collaborater::class);
+        $userRegistered = $repo->findOneBy([
+            'host' => $user,
+            'target' => $userToAdd
+        ],
+        );
+
+        if(!empty($userRegistered)){
+
+            $this->addFlash(
+                'alert',
+                'Cet utilisateur fait déjà parti de vos collaborateurs.'
+            );
+
+            return $this->redirectToRoute('userCollaborater');
+
+        }
+
+        $collaborater->setHost($user);
+        $collaborater->setTarget($userToAdd);
+
+        $em->persist($collaborater);
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'Vous venez d\'ajouter un collaborateur.'
+        );
+
+        return $this->redirectToRoute('userCollaborater');
+    }
+
+    /**
+     * @Route("/userCollaboraterDelete/{id}", name="userCollaboraterDelete")
+     */
+    public function collaboraterDelete($id, EntityManagerInterface $em): Response
+    {
+
+        $user = $this->getUser();
+
+        $repo = $em->getRepository(User::class);
+        $userToDelete = $repo->findOneBy([
+            'id' => $id
+        ],
+        );
+
+        $repo = $em->getRepository(Collaborater::class);
+        $userRegistered = $repo->findOneBy([
+            'host' => $user,
+            'target' => $userToDelete
+        ],
+        );
+
+        $userRegistered->setTarget(null);
+        $userRegistered->setHost(null);
+
+        $em->persist($userRegistered);
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'Vous venez de supprimer un collaborateur.'
+        );
+
+        return $this->redirectToRoute('userCollaborater');
+
+    }
 }

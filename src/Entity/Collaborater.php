@@ -18,12 +18,12 @@ class Collaborater
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="collaboraters")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="collaboratersHost")
      */
     private $host;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="collaboraters")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="collaboratersTarget")
      */
     private $target;
 

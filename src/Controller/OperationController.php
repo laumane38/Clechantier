@@ -25,7 +25,7 @@ class OperationController extends AbstractController
     /**
      * @Route("/addOperation/{id}", name="addOperation")
      */
-    public function naddOperation($id, Request $request, EntityManagerInterface $em): Response
+    public function addOperation($id, Request $request, EntityManagerInterface $em): Response
     {
 
         $user = $this->getUser();

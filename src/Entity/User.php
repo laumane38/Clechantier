@@ -102,7 +102,12 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=Collaborater::class, mappedBy="host")
      */
-    private $collaboraters;
+    private $collaboratersHost;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Collaborater::class, mappedBy="target")
+     */
+    private $collaboratersTarget;
 
     public function __construct()
     {
@@ -111,6 +116,8 @@ class User implements UserInterface
         $this->operationList = new ArrayCollection();
         $this->operations = new ArrayCollection();
         $this->collaboraters = new ArrayCollection();
+        $this->collaboratersHost = new ArrayCollection();
+        $this->collaboratersTarget = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -455,27 +462,57 @@ class User implements UserInterface
     /**
      * @return Collection|Collaborater[]
      */
-    public function getCollaboraters(): Collection
+    public function getCollaboratersHost(): Collection
     {
-        return $this->collaboraters;
+        return $this->collaboratersHost;
     }
 
-    public function addCollaborater(Collaborater $collaborater): self
+    public function addCollaboratersHost(Collaborater $collaboratersHost): self
     {
-        if (!$this->collaboraters->contains($collaborater)) {
-            $this->collaboraters[] = $collaborater;
-            $collaborater->setHost($this);
+        if (!$this->collaboratersHost->contains($collaboratersHost)) {
+            $this->collaboratersHost[] = $collaboratersHost;
+            $collaboratersHost->setHost($this);
         }
 
         return $this;
     }
 
-    public function removeCollaborater(Collaborater $collaborater): self
+    public function removeCollaboratersHost(Collaborater $collaboratersHost): self
     {
-        if ($this->collaboraters->removeElement($collaborater)) {
+        if ($this->collaboratersHost->removeElement($collaboratersHost)) {
             // set the owning side to null (unless already changed)
-            if ($collaborater->getHost() === $this) {
-                $collaborater->setHost(null);
+            if ($collaboratersHost->getHost() === $this) {
+                $collaboratersHost->setHost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Collaborater[]
+     */
+    public function getCollaboratersTarget(): Collection
+    {
+        return $this->collaboratersTarget;
+    }
+
+    public function addCollaboratersTarget(Collaborater $collaboratersTarget): self
+    {
+        if (!$this->collaboratersTarget->contains($collaboratersTarget)) {
+            $this->collaboratersTarget[] = $collaboratersTarget;
+            $collaboratersTarget->setTarget($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollaboratersTarget(Collaborater $collaboratersTarget): self
+    {
+        if ($this->collaboratersTarget->removeElement($collaboratersTarget)) {
+            // set the owning side to null (unless already changed)
+            if ($collaboratersTarget->getTarget() === $this) {
+                $collaboratersTarget->setTarget(null);
             }
         }
 

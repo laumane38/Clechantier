@@ -10,18 +10,97 @@
 	</p>
 	<h1>Gérer mes collaborateurs</h1>
 
-	<h4>Formulaire de recherche</h4>
-	{{ form_start(searchResult) }}
-	{{ form_row(searchResult.pseudo) }}
-	{{ form_row(searchResult.firstName) }}
-	{{ form_row(searchResult.lastName) }}
-	{{ form_row(searchResult.email) }}
-	{{ form_row(searchResult.companie) }}
-	<button class="btn btn-primary" type="submit">Rechercher</button>
-	{{ form_end(searchResult) }}
+	<div class="clearfix">
 
-	<h4>Résultat de ma recherche</h4>
-	{% for user in usersResults %}
-		{{user.pseudo}}
-	{% endfor %}
+		<div class="w-50 left">
+
+			<h4>Formulaire de recherche</h4>
+			{{ form_start(searchResult) }}
+			{{ form_row(searchResult.pseudo) }}
+			{{ form_row(searchResult.firstName) }}
+			{{ form_row(searchResult.lastName) }}
+			{{ form_row(searchResult.email) }}
+			{{ form_row(searchResult.companie) }}
+			<button class="btn btn-primary" type="submit">Rechercher</button>
+			{{ form_end(searchResult) }}
+
+		</div>
+
+		<div class="w-50 left">
+			<h4>Liste de mes collaborateurs</h4>
+			{% for user in collaboraterList %}
+				<div class="clearfix">
+					<div class="left w-50 padding1">{{user.target.pseudo}}
+						({{user.target.gender}}
+						{{user.target.firstName}}
+						{{user.target.lastName}})</div>
+					<div class="left w-50 padding1">
+						<a class="btn btn-danger" href="{{path('userCollaboraterDelete',{id:user.target.id})}}">Supprimer</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div><br/>
+
+	{% if searchResult.vars.submitted == true %}
+		<h4>Résultat de ma recherche ({{usersResults|length}}
+			{% if usersResults|length !=1 %}
+				résultats
+			{% else %}
+				résultat
+			{% endif %}
+			)</h4>
+
+		{% if usersResults|length != 0 %}
+
+			{% for user in usersResults %}
+
+				<div class="card">
+					<div class="clearfix">
+						<div class="left">
+							<img src="../images/avatars/avatar{{ user.avatar }}.png">
+						</div>
+						<div class="left">
+							<div class="padding10">
+
+								<h5>Informations contact</h5>
+								<div>Pseudo :
+									{{ user.pseudo}}</div>
+								<div>Civilité :
+									{{ user.gender}}
+									{{ user.firstName}}
+									{{ user.lastName}}<br/>
+									Société :
+									{{ user.companie }}
+								</div><br/>
+								<h5>Action dipsponible avec ce contact</h5>
+
+
+								{% set registered = false %}
+
+								{% for userRegistered in usersRegistered %}
+
+									{% if user.id == userRegistered.target.id %}
+										{% set registered = true %}
+									{% endif %}
+								{% endfor %}
+
+
+								{% if registered == false %}
+									<a class="btn btn-primary" href="{{path('userCollaboraterAdd',{id:user.id})}}">Ajouter à mes collaborateurs</a>
+								{% else %}
+									<a class="btn btn-danger" href="{{path('userCollaboraterDelete',{id:user.id})}}">Supprimer de mes collaborateurs</a>
+								{% endif %}
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			{% endfor %}
+		{% else %}
+			<div class="alert alert-danger">Votre recherche ne retourne aucun résultat</div>
+		{% endif %}
+	{% endif %}
 {% endblock %}

@@ -60,7 +60,7 @@ class ArticleUserController extends AbstractController
                 'Votre article a été créé.'
             );
 
-            return $this->redirectToRoute('articleShow');
+            return $this->redirectToRoute('articleShowMy');
      
         }
 
@@ -124,7 +124,7 @@ class ArticleUserController extends AbstractController
 
         }
 
-        return $this->redirectToRoute('articleShow');
+        return $this->redirectToRoute('articleShowMy');
     }
 
     /**
