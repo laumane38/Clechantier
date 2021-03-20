@@ -27,6 +27,11 @@ class Collaborater
      */
     private $target;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Operation", mappedBy="collaborater")
+     */
+    private $operations;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,33 @@ class Collaborater
     public function setTarget(?User $target): self
     {
         $this->target = $target;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Operation[]
+     */
+    public function getOperations(): Collection
+    {
+        return $this->operations;
+    }
+
+    public function addOperations(Operation $operations): self
+    {
+        if (!$this->operations->contains($operations)) {
+            $this->operations[] = $operations;
+            $operations->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperations(Operation $operations): self
+    {
+        if ($this->operations->removeElement($operations)) {
+            $operations->removeUser($this);
+        }
 
         return $this;
     }

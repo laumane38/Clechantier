@@ -10,9 +10,47 @@
 	<h1>Nouvelle opération</h1>
 
 	{{ form_start(formNewOperation) }}
-	{{ form_row(formNewOperation.operationList)}}
+
+
+	{% if formNewOperation.operationList.vars.choices is empty %}
+
+		<p>Vous n'avez pas encore créer d'opérations. Cliquez
+			<a href="{{path('userConfig')}}">ici</a>
+			pour en créer.</p>
+		{% do formNewOperation.operationList.setRendered %}
+
+	{% else %}
+		{{ form_row(formNewOperation.operationList)}}
+	{% endif %}
+
 	{{ form_row(formNewOperation.dateStart)}}
 	{{ form_row(formNewOperation.dateEnd)}}
+	<br/>
+
+	{{ formNewOperation.Collaborater.vars.label }}
+
+	{% if formNewOperation.Collaborater is empty %}
+
+		<p>Vous n'avez pas encore de collaborateurs. Cliquez
+			<a href="{{path('userCollaborater')}}">ici</a>
+			pour en ajouter.</p>
+
+
+	{% else %}
+
+		{% for checkbox in formNewOperation.Collaborater %}
+
+			<div>
+				<input type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" value="{{ checkbox.vars.name }}">
+				<label for="{{ checkbox.vars.id }}">{{ checkbox.vars.label }}</label>
+			</div>
+
+		{% endfor %}
+	{% endif %}
+
+	{% do formNewOperation.Collaborater.setRendered %}
+
+	<br/>
 	<button class="btn btn-lg btn-primary" type="submit">
 		Enregistrer
 	</button>

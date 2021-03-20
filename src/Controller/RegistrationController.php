@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Collaborater;
 use App\Entity\User;
 use App\Form\InscriptionType;
 use DateTimeImmutable;
@@ -54,12 +55,17 @@ class RegistrationController extends AbstractController
                 $user->setRoles($roles);
                 $user->setConnectedAt($dateTimeImmutable);
                 $user->setRegisteredAt($dateTimeImmutable);
+                $user->setCGU($sub['CGU']);
 
                 // on verifie que le pseudo n'existe pas encore
                 $emPseudo = $entityManager->getRepository(User::class)->findBy(array('pseudo' => $user->getPseudo()));
                 // on verifie que l'email n'existe pas encore
                 $emEmail = $entityManager->getRepository(User::class)->findBy(array('email' => $user->getEmail()));
 
+                $collaborater = new Collaborater;
+
+                $collaborater->setTarget($user);
+                $collaborater->setHost($user);
 
                 //si le pseudo et l'email n'existe pas encore dans la base de donnée alors on autorise les enregistrements
                 if (empty($emEmail) && empty($emPseudo)) {

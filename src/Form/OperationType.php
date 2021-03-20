@@ -2,16 +2,17 @@
 
 namespace App\Form;
 
-use App\Entity\Operation;
-use App\Entity\OperationList;
 use App\Entity\User;
+use App\Entity\Operation;
+use App\Entity\Collaborater;
+use App\Entity\OperationList;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
@@ -68,19 +69,24 @@ class OperationType extends AbstractType
                 },
                 'choice_label' => 'name',
             ])
-            ->add('User', EntityType::class, [
-                'class' => User::class,     
-                'label' => 'Associer colaborateur :',
-                'choice_label' => 'pseudo',
+
+
+            ->add('Collaborater', EntityType::class, [
+                'class' => Collaborater::class,     
+                'label' => 'Assigner une ou plusieurs personnes pour cette tâche :',
+                'choice_label' => function ($label) {
+                    return $label->getTarget()->getPseudo().' ('.$label->getTarget()->getFirstName().' '.$label->getTarget()->getLastName().')';
+                },
                 'expanded' => true,
                 'multiple' => true,
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->andWhere('u.collaboratersHost= :user')
-                        ->setParameter('user', $this->user)
-                        ;
+                    return $er->createQueryBuilder('c')
+                    ->andWhere('c.host = :user')
+                    ->setParameter('user', $this->user)
+                    ;
                 },
             ])
+
         ;
     }
 

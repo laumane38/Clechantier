@@ -95,19 +95,24 @@ class User implements UserInterface
     private $operationList;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Operation::class, mappedBy="user")
-     */
-    private $operations;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Collaborater::class, mappedBy="host")
+     * @ORM\OneToMany(targetEntity="Collaborater", mappedBy="host")
      */
     private $collaboratersHost;
 
     /**
-     * @ORM\OneToMany(targetEntity=Collaborater::class, mappedBy="target")
+     * @ORM\OneToMany(targetEntity="Collaborater", mappedBy="target")
      */
     private $collaboratersTarget;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Operation", mappedBy="registeredBy")
+     */
+    private $registeredBy;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $CGU;
 
     public function __construct()
     {
@@ -433,33 +438,6 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Operation[]
-     */
-    public function getOperations(): Collection
-    {
-        return $this->operations;
-    }
-
-    public function addOperation(Operation $operation): self
-    {
-        if (!$this->operations->contains($operation)) {
-            $this->operations[] = $operation;
-            $operation->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOperation(Operation $operation): self
-    {
-        if ($this->operations->removeElement($operation)) {
-            $operation->removeUser($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Collaborater[]
      */
     public function getCollaboratersHost(): Collection
@@ -515,6 +493,18 @@ class User implements UserInterface
                 $collaboratersTarget->setTarget(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCGU(): ?bool
+    {
+        return $this->CGU;
+    }
+
+    public function setCGU(?bool $CGU): self
+    {
+        $this->CGU = $CGU;
 
         return $this;
     }

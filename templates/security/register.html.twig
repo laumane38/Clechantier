@@ -24,8 +24,8 @@
 			<button id="lunettesI" class="unmask" type="button" title="unmask"><img src="/images/buttons/lunettes-mini.png"></button>
 			{{ form_row(formInscription.password)}}
 			{{ form_row(formInscription.email)}}
-			<div>
-				<label for="inscription_CGU" class="required">Accepter les conditions Générales d&#039;utilisation : *</label><input type="checkbox" id="inscription_CGU" name="inscription[CGU]" required="required" value="1"/></div>
+			{{ form_row(formInscription.CGU)}}
+
 
 			<div class="padding10">
 				<button class="btn btn-lg btn-primary" type="submit">

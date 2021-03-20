@@ -81,7 +81,7 @@
 							{% endif %}
 
 							<td class="{{ class }}">
-								{% if( class == 'planningShow' or class == 'planningToday' or class == 'planningWeekend' ) and day <= dataDate.nbDaysInMonth %}
+								{% if( class == 'planningShow' or class == 'planningToday' or class == 'planningWeekend' ) and day <= dataDate.nbDaysInMonth and day >= 1 %}
 									{{ day }}
 								{% endif %}
 								{% set day = day + 1 %}

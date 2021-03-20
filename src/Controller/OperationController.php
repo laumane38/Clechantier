@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\User;
 use App\Entity\Operation;
 use App\Form\OperationType;
@@ -33,6 +34,36 @@ class OperationController extends AbstractController
         $operation = new Operation();
 
         $formNewOperation = $this->createForm(OperationType::class, $operation);
+
+        $formNewOperation->handleRequest($request);
+
+           
+  
+
+        if ($formNewOperation->isSubmitted() && $formNewOperation->isValid()) {
+
+            $date = new DateTime;
+
+            $operation->setRegisteredBy($user);
+            $operation->setRegisteredAt($date);
+
+            
+
+            $em->persist($operation);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre opération a bien été enregistrée.'
+            );
+
+            return $this->redirectToRoute('articlePlanning',[
+                'id' => $id
+            ]);
+
+        }
+
+
 
         return $this->render('pages/operation/addOperation.html.twig', [
             'articleId' => $id,

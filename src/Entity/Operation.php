@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use DateTimeImmutable;
+use DateTime;
 use App\Repository\OperationRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,27 +22,27 @@ class Operation
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+    * @ORM\ManyToOne(targetEntity="User", inversedBy="registeredBy")
      */
     private $registeredBy;
 
     /**
-     * @var DateTimeImmutable
-     * @ORM\Column(type="datetime_immutable")
+     * @var DateTime
+     * @ORM\Column(type="datetime")
      */
-    private DateTimeImmutable $registeredAt;
+    private DateTime $registeredAt;
 
     /**
-     * @var DateTimeImmutable
-     * @ORM\Column(type="datetime_immutable")
+     * @var DateTime
+     * @ORM\Column(type="datetime")
      */
-    private DateTimeImmutable $dateStart;
+    private DateTime $dateStart;
 
     /**
-     * @var DateTimeImmutable
-     * @ORM\Column(type="datetime_immutable")
+     * @var DateTime
+     * @ORM\Column(type="datetime")
      */
-    private DateTimeImmutable $dateEnd;
+    private DateTime $dateEnd;
 
     /** 
     * @ORM\ManyToOne(targetEntity="OperationList", inversedBy="operation")  
@@ -54,13 +55,13 @@ class Operation
     private $article;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="operations")
+     * @ORM\ManyToMany(targetEntity=Collaborater::class, inversedBy="operations")
      */
-    private $user;
+    private $collaborater;
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
+        $this->collaborater = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,48 +69,48 @@ class Operation
         return $this->id;
     }
 
-    public function getRegisteredBy(): ?string
+    public function getRegisteredBy(): ?User
     {
         return $this->registeredBy;
     }
 
-    public function setRegisteredBy(?string $registeredBy): self
+    public function setRegisteredBy(?User $registeredBy): self
     {
         $this->registeredBy = $registeredBy;
 
         return $this;
     }
 
-    public function getRegisteredAt(): ?DateTimeImmutable
+    public function getRegisteredAt(): ?DateTime
     {
         return $this->registeredAt;
     }
 
-    public function setRegisteredAt(DateTimeImmutable $registeredAt): self
+    public function setRegisteredAt(DateTime $registeredAt): self
     {
         $this->registeredAt = $registeredAt;
 
         return $this;
     }
 
-    public function getDateStart(): ?DateTimeImmutable
+    public function getDateStart(): ?DateTime
     {
         return $this->dateStart;
     }
 
-    public function setDateStart(DateTimeImmutable $dateStart): self
+    public function setDateStart(DateTime $dateStart): self
     {
         $this->dateStart = $dateStart;
 
         return $this;
     }
 
-    public function getDateEnd(): ?DateTimeImmutable
+    public function getDateEnd(): ?DateTime
     {
         return $this->dateEnd;
     }
 
-    public function setDateEnd(DateTimeImmutable $dateEnd): self
+    public function setDateEnd(DateTime $dateEnd): self
     {
         $this->dateEnd = $dateEnd;
 
@@ -141,25 +142,25 @@ class Operation
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Collaborater[]
      */
-    public function getUser(): Collection
+    public function getCollaborater(): Collection
     {
-        return $this->user;
+        return $this->collaborater;
     }
 
-    public function addUser(User $user): self
+    public function addCollaborater(Collaborater $collaborater): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
+        if (!$this->collaborater->contains($collaborater)) {
+            $this->collaborater[] = $collaborater;
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeCollaborater(Collaborater $collaborater): self
     {
-        $this->user->removeElement($user);
+        $this->collaborater->removeElement($collaborater);
 
         return $this;
     }
